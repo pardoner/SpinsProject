@@ -11,7 +11,7 @@ import Home from './home';
 import SingleCollection from './singleCollection';
 
 
-export default function Navigations({token, setToken}) {
+export default function Navigations({token, setToken, spotifyToken, setSpotifyToken}) {
 
   return (
     <div id="container">
@@ -24,13 +24,13 @@ export default function Navigations({token, setToken}) {
     <div id="main-section">
     <Routes>
      <Route path="/account" element={<Account token={token} setToken={setToken}/>} />
-     <Route path="/albums" element={<Albums/>} />
+     <Route path="/albums" element={<Albums spotifyToken={spotifyToken} setSpotifyToken={setSpotifyToken}/>} />
      <Route path="/collections" element={<Collections/>} />
      <Route path="/reviews" element={<Reviews token={token}/>} />
      <Route path="/login" element={<Login token={token} setToken={setToken}/>} />
      <Route path="/register" element={<Register token={token} setToken={setToken}/>} />
-     <Route path="/albums/:id" loader={({params }) => { return params.id }} element={<SingleAlbum  token={token} setToken={setToken}/>} />
-     <Route path="/collections/:id" loader={({params }) => { return params.id }} element={<SingleCollection  token={token} setToken={setToken}/>} />
+     <Route path="/albums/:id" loader={({params }) => { return params.id }} element={<SingleAlbum  token={token} setToken={setToken} spotifyToken={spotifyToken}/>} />
+     <Route path="/collections/:id" loader={({params }) => { return params.id }} element={<SingleCollection  token={token} setToken={setToken} spotifyToken={spotifyToken}/>} />
      <Route path="/" element={<Home/>} />
    </Routes>
     </div>

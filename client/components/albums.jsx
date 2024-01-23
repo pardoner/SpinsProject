@@ -1,21 +1,41 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";4
-import { useGetAlbumsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetAlbumsQuery } from '../src/api/spinsapi';
 import ReactPaginate from 'react-paginate';
+import { fetchSpotifyAlbumArt, fetchSpotifyToken } from '../fetching'
 
-export default function Albums () {
+export default function Albums ({spotifyToken, setSpotifyToken}) {
   const { data, error, isLoading } = useGetAlbumsQuery();
   const searchBar = () => {}
   const [searchInput, setSearchInput] = useState("");
+  const [isLoadingAlbums, setIsLoadingAlbums] = useState(false);
+  const [itemOffset, setItemOffset] = useState(0);
+  let currentItems = []
+
+ useEffect(() =>
+  {
+    async function getToken() {
+      await fetchSpotifyToken().then(resp =>
+        {
+          setSpotifyToken(resp.access_token)
+        })
+    }
+    getToken()
+  }, [])
 
   if (isLoading) {
-      return <div>Loading...</div>; // is styles.loading pre-programmed?
+      return <div>Loading...</div>;
   }
 
   if (error) {
     return <div>Error: {error.message}</div>; 
   }
+  
+  if (!data) {
+    return
+  }
+
 
   function handleChange(e) {
     e.preventDefault();
@@ -23,29 +43,47 @@ export default function Albums () {
   }
 
   function BuildItems({albums}) {
-     return albums.map((album) => {
-      console.log(album)
-      album.imgUrl = fetchSpotifyAlbumArt(album.title, album.artist) //TODO implement fetch
+    return albums.map((album) => {
       return (
-        <div className="column">
-          <ul key={album.id} className="album-card">
-            <Link to={`/albums/${album.id}`}><img src={album.imgUrl} alt={album.title} /></Link>
-            <li>{album.title} </li> 
-            <li>{album.artist}</li> 
-          </ul>
-        </div>
+        <ul>
+        <Item key={album.id} album={album}/>
+        </ul>
       )
     })
   }
 
-  function PaginatedItems({ itemsPerPage }) {
-    // Here we use item offsets; we could also use page offsets
-    // following the API or data you're working with.
-    const [itemOffset, setItemOffset] = useState(0);
+  function Item({album}) {
+    const [state, setState] = useState({
+      isLoadingAlbum: true,
+      url: {}
+    });
 
-    // Simulate fetching items from another resources.
-    // (This could be items from props; or items loaded in a local state
-    // from an API endpoint with useEffect and useState)
+    useEffect(() => {
+      const getDataWrapper = async () => {
+        const response = await await fetchSpotifyAlbumArt(album.title, album.artist, spotifyToken)
+        setState({
+          isLoading: false,
+          url: response
+        });
+      }
+
+      getDataWrapper();
+    }, []);
+
+    if(state.isLoadingAlbum) { return <div>Data is loading from API...</div> }
+
+    return (
+      <li key={`${album.id}`} className="column">
+          <ul className="album-card">
+            <Link to={`/albums/${album.id}`}><img src={state.url} alt={album.title} /></Link>
+            <li key="album">{album.title} </li> 
+            <li key="artist">{album.artist}</li> 
+          </ul>
+      </li>
+    )
+  }
+
+  function PaginatedItems({ itemsPerPage }) {
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading albums from ${itemOffset} to ${endOffset}`);
     let items = data.filter((album) => {
@@ -57,10 +95,9 @@ export default function Albums () {
       }
       return false;
     })
-    const currentItems = items.slice(itemOffset, endOffset);
+    currentItems = items.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(items.length / itemsPerPage);
 
-    // Invoke when user click to request another page.
     const handlePageClick = (event) => {
       const newOffset = (event.selected * itemsPerPage) % items.length;
       console.log(
@@ -68,9 +105,13 @@ export default function Albums () {
       );
       setItemOffset(newOffset);
     }
+    if (isLoadingAlbums) {
+        return <div>Loading albums...</div>;
+    }
+
     return (
       <>
-        <BuildItems albums={items} />
+        <BuildItems albums={currentItems} />
         <ReactPaginate
           breakLabel="..."
           nextLabel="next >"
@@ -84,13 +125,12 @@ export default function Albums () {
     );
   }
 
-  console.log(data)
   return (
       <div>
       <h1>Albums</h1>
       <p id="pickAlbum">Select an album to see more details.</p>
         <input onInput={(e)=> handleChange(e)}></input>
-        {data && <PaginatedItems itemsPerPage={20} />}
+        {data && <PaginatedItems itemsPerPage={5} />}
      </div> 
     );
 }

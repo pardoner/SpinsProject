@@ -1,10 +1,11 @@
 const BASE_URL = `http://localhost:8080/api`;
-const SPOTIFY_BASE_URL = ``;
+const SPOTIFY_URL = `https://api.spotify.com/v1`;
+const SPOTIFY_TOKEN_URL = `https://accounts.spotify.com/api`;
 
 export const registerUser = async (first_name, last_name, username, password) => {
     try {
         const response = await fetch(
-            `${BASE_URL}/users`, { // register?
+            `${BASE_URL}/users`, { 
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -45,27 +46,6 @@ export const login = async (username, password) => {
         console.error(err);
     }
 }
-
-// export const getUser = async (username, password) => {
-
-//     try {
-//         const response = await fetch(`${BASE_URL}/users/login`, {
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 username,
-//                 password
-//             })
-//         });
-//         const result = await response.json();
-//         console.log(result);
-//         return result
-//     } catch (err) {
-//         console.error(err);
-//     }
-// }
 
 export const fetchAlbums = async () => {
     try {
@@ -190,8 +170,8 @@ export const fetchSpotifyToken = async () => {
     try {
         var details = {
             'grant_type': 'client_credentials',
-            'cleint_id': '',
-            'client_secret': ''
+            'client_id': 'c65de028bb534b2498e40760da58902e',
+            'client_secret': '857af09fbdeb4aeabb2dc2cea8d27634'
         };
         
         var formBody = [];
@@ -202,13 +182,14 @@ export const fetchSpotifyToken = async () => {
         }
         formBody = formBody.join("&");
 
-        const response = await fetch(`${SPOTIFY_BASE_URL}/token`, {
+        const response = await fetch(`${SPOTIFY_TOKEN_URL}/token`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: formBody
+            body: new URLSearchParams(details)
         })
+        console.log(new URLSearchParams(details).toString())
 
         const result = await response.json();
         console.log(result);
@@ -218,13 +199,32 @@ export const fetchSpotifyToken = async () => {
     }
 }
 
-export const fetchSpotifyAlbumArt = (title, artist) => {
- //TODO
- //call spotify /search endpoint with query paramter "q" = "artist:<artist>,album:<album>" and 
- // query parameter "type" = "album"
- // for examples look at thunder client
- /// return value will have ID for album
- // use id to make callt o spotify /album/:id endpoint
- // response will have a key called "images", look at any in the array, and take the key "url"
- // MAKE SURE BOTH CALLS USE authrization HEADER and token has "Bearer " before it
+export const fetchSpotifyAlbumArt = async (title, artist, spotifyToken) => {
+    let search_response = []
+    var queryBody = `?q=album%3A${encodeURIComponent(title)}%20artist%3A${encodeURIComponent(artist)}&type=album`
+
+    try {
+        const response = await fetch(`${SPOTIFY_URL}/search` + queryBody,
+        {
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${spotifyToken}`
+            }
+        },
+        ) // fetch("api.spotify.com/api/v1/search&q=artist:briteny%20spears,album:BLACKOUT&type=album")
+        search_response = await response.json();
+        if (search_response.error) {
+            return search_response
+        }
+    } catch (err) {
+        console.error(err);
+    }
+    if (search_response) {
+        const album = search_response.albums.items[0]
+        if (album) {
+            return album.images[0].url
+        } 
+    } else {
+        return null
+    }
 }
