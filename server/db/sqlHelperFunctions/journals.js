@@ -1,13 +1,17 @@
 
 const client = require('../client');
 const util = require('util');
+const { getUserByUsername } = require('./users')
 
 // GET 
-async function getAllJournals() {
+async function getAllJournals(userId) {
+    console.log(`user id: ${userId}`)
     try {
       const { rows } = await client.query(`
-                  SELECT * FROM journals;
-              `);
+                  SELECT * FROM journals
+                  WHERE journals."userId" = $1;
+              `, [userId]);
+      console.log(rows)
       return rows;
     } catch (error) {
       throw error;

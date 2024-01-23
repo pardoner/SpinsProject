@@ -27,14 +27,26 @@ async function getCollectionById(collectionId) {
     }
 }
 
+async function getCollectionAlbums(collectionId) {
+    try {
+        const { rows } = await client.query(`
+      SELECT * FROM albums
+      WHERE id IN (SELECT "albumId" from collections where id = $1);
+    `, [collectionId]);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
 // POST -
 async function createCollection(body) {
     try {
         const { rows: [collection] } = await client.query(`
-        INSERT INTO collections(name, "userId", "albumId")
-        VALUES($1, $2, $3)
+        INSERT INTO collections(name, "userId", "albumId", "imgUrl")
+        VALUES($1, $2, $3, $4)
         RETURNING *;
-        `, [body.name, body.userId, body.albumId]);
+        `, [body.name, body.userId, body.albumId, body.imgUrl]);
         return collection;
     } catch (error) {
         throw error;
@@ -83,5 +95,6 @@ module.exports = {
     getCollectionById,
     createCollection,
     updateCollection,
-    deleteCollection
+    deleteCollection,
+    getCollectionAlbums
 };

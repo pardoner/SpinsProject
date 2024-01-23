@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../secrets')
+const { getUserByUsername } = require('../db/sqlHelperFunctions/users')
 
 const authRequired = (req, res, next) => {
   const token = req.get('Authorization').split(' ')[1];
   console.log(token);
 
   try {
-   // jwt.verify(token, JWT_SECRET);
+   jwt.verify(token, JWT_SECRET);
   } catch (error) {
     res.status(401).send({
       loggedIn: false,
@@ -17,4 +18,14 @@ const authRequired = (req, res, next) => {
   next()
 }
 
-module.exports = { authRequired }
+function getUserFromRequest(req) {
+  const token = req.get('Authorization').split(' ')[1];
+  console.log(token)
+  decoded = jwt.verify(token, JWT_SECRET)
+  console.log("decoded")
+  console.log(decoded)
+  const user = getUserByUsername(decoded.username);
+  return user;
+}
+
+module.exports = { authRequired, getUserFromRequest}

@@ -1,7 +1,8 @@
 
 const client = require('../client');
 const util = require('util');
-const { users } = require('../seedData');
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET } = require('../../secrets')
 
 // GET 
 async function getAllUsers() {
@@ -28,19 +29,58 @@ async function getUserById(id) {
     }
 }
 
-// POST -
-async function createUser(body) {
+async function getUserByUsername(username) {
+    console.log(username)
     try {
         const { rows: [user] } = await client.query(`
-        INSERT INTO users(first_name, last_name, email, password, username)
-        VALUES($1, $2, $3, $4, $5)
-        RETURNING *;
-        `, [body.first_name, body.last_name, body.email, body.password, body.username]);
+        SELECT * FROM users
+        WHERE users.username=$1
+        `, [username]);
         return user;
     } catch (error) {
         throw error;
     }
 }
+// POST -
+async function createUser(body) {
+    try {
+        const { rows: [user] } = await client.query(`
+        INSERT INTO users(first_name, last_name, email, username, password)
+        VALUES($1, $2, $3, $4, $5)
+        RETURNING *;
+        `, [body.first_name, body.last_name, body.email, body.username, body.password]);
+        const token = jwt.sign({username: body.username}, JWT_SECRET);
+        return token; // return user?
+    } catch (error) {
+        throw error;
+    }
+}
+
+// body = {"username" : "XXXX", "password": "wwww"}
+async function postLogin(body) {
+    try {
+        const { rows : [user] } = await client.query(`
+        SELECT * FROM users
+        WHERE users.username = $1
+        `, [body.username]
+        )
+        if (!user) {
+            user(404).send("Not found."); // or res.status 404? 
+        } else if (user.password != body.password) {
+            user(403).send("Unauthorized.");
+        }
+        const token = jwt.sign({username: body.username}, JWT_SECRET);
+
+	
+        return token
+    } catch (error) {
+        throw error;
+    }
+}
+
+// create token 
+// throw http errors
+// in util uncomment token verify 
 
 async function updateUser(id, fields = {}) {
     // build the set string
@@ -84,5 +124,7 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    postLogin,
+    getUserByUsername
 };

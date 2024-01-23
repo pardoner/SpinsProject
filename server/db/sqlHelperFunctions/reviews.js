@@ -3,11 +3,12 @@ const client = require('../client');
 const util = require('util');
 
 // GET 
-async function getAllReviews() {
+async function getAllReviews(userId) {
     try {
       const { rows } = await client.query(`
-                  SELECT * FROM reviews;
-              `);
+                  SELECT * FROM reviews
+                  WHERE reviews."userId" = $1;
+              `, [userId]);
       return rows;
     } catch (error) {
       throw error;

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { authRequired } = require('./util');
+const { authRequired, getUserFromRequest } = require('./util');
 const {    getAllReviews, getReviewById, createReview, updateReview, deleteReview } = require('../db/sqlHelperFunctions/reviews');
 
 
 router.get('/', async (req, res, next) => {
     try {
-        const review = await getAllReviews();
+        const user = await getUserFromRequest(req)
+        const review = await getAllReviews(user.id);
         res.send(review);
     } catch (error) {
         next(error);

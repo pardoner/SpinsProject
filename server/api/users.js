@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { authRequired } = require('./util');
-const { getAllUsers, getUserById, createUser, updateUser, deleteUser } = require('../db/sqlHelperFunctions/users');
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET } = require('../secrets')
+const { postLogin, getAllUsers, getUserByUsername, createUser, updateUser, deleteUser } = require('../db/sqlHelperFunctions/users');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -12,9 +14,27 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     try {
-        const user = await getUserById(req.params.id);
+        const token = await postLogin(req.body);
+        
+        res.cookie("token", token, {
+		    sameSite: "strict",
+		    httpOnly: true,
+			signed: true,
+		});
+        res.send({ token });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/me',authRequired, async (req, res, next) => {
+    try {
+        const token = req.get('Authorization').split(' ')[1];
+        decoded = jwt.verify(token, JWT_SECRET)
+        console.log(decoded)
+        const user = await getUserByUsername(decoded.username);
         res.send(user);
     } catch (error) {
         next(error);
@@ -22,12 +42,19 @@ router.get('/:id', async (req, res, next) => {
 });
 
 
-router.post('/', authRequired, async (req, res, next) => {
+// register
+router.post('/', async (req, res, next) => {
     try {
-        const user = await createUser(req.body);
-        res.send(user);
-    } catch (err) {
-        next(err);
+        const token = await createUser(req.body);
+        
+        res.cookie("token", token, {
+		    sameSite: "strict",
+		    httpOnly: true,
+			signed: true,
+		});
+        res.send({ token });
+    } catch (error) {
+        next(error);
     }
 });
 

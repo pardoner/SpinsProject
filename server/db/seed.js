@@ -3,12 +3,12 @@ const client = require('./client');
 
 const { createAlbum, getAllAlbums } = require('./sqlHelperFunctions/albums')
 const { createCollection, getAllCollections } = require('./sqlHelperFunctions/collections')
-const { createJournal, getAllJournals } = require('./sqlHelperFunctions/journals')
 const { createReview, getAllReviews } = require('./sqlHelperFunctions/reviews')
 const { createUser, getAllUsers } = require('./sqlHelperFunctions/users')
 
 
-const { albums, collections, reviews, journals, users } = require('./seedData')
+const { collections, reviews, users } = require('./seedData')
+const albums = require('./albums.json')
 
 rebuildDB()
   .catch(console.error)
@@ -20,7 +20,6 @@ rebuildDB()
           console.log('Dropping All Tables...');
           await client.query(`
         DROP TABLE IF EXISTS collections;
-        DROP TABLE IF EXISTS journals;
         DROP TABLE IF EXISTS reviews;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS albums;
@@ -39,9 +38,8 @@ rebuildDB()
           id SERIAL PRIMARY KEY,
           title VARCHAR(255) NOT NULL,
           artist VARCHAR(255) NOT NULL,
-          genre VARCHAR(255) NOT NULL,
-          release_date DATE,
-          tracklist TEXT,
+          genre VARCHAR(255),
+          release_date TEXT,
           description TEXT,
           "imgUrl" VARCHAR(255) DEFAULT 'https://st4.depositphotos.com/11065358/29775/v/450/depositphotos_297757886-stock-illustration-vinyl-plate-disc-isolated-on.jpg'
           );
@@ -58,6 +56,7 @@ rebuildDB()
               name VARCHAR(255) UNIQUE NOT NULL,
               "userId" INT REFERENCES users(id) NOT NULL,
               "albumId" INT REFERENCES albums(id) NOT NULL
+              "imgUrl" VARCHAR(255) DEFAULT 'https://st4.depositphotos.com/11065358/29775/v/450/depositphotos_297757886-stock-illustration-vinyl-plate-disc-isolated-on.jpg'
           );
           CREATE TABLE reviews (
               id SERIAL PRIMARY KEY,
@@ -67,14 +66,6 @@ rebuildDB()
               rating INT,
               "userId" INT REFERENCES users(id) NOT NULL,
               "albumId" INT REFERENCES albums(id)
-              );
-           CREATE TABLE journals (
-              id SERIAL PRIMARY KEY,
-              body TEXT,
-              frequency VARCHAR(200),
-              date DATE,
-              "userId" INT REFERENCES users(id) NOT NULL,
-              "albumId" INT REFERENCES albums(id) NOT NULL
               );
           `);
       } catch (error) {
@@ -100,17 +91,6 @@ const createInitialCollections = async () => {
             await createCollection(collection)
         }
         console.log("created collections")
-    } catch (error) {
-        throw error
-    }
-}
-
-const createInitialJournals = async () => {
-    try {
-        for (const journal of journals) {
-            await createJournal(journal)
-        }
-        console.log("created journals")
     } catch (error) {
         throw error
     }
@@ -150,7 +130,6 @@ const createInitialUsers = async () => {
           await createInitialAlbums();
           await createInitialUsers();
           await createInitialCollections();
-          await createInitialJournals();
           await createInitialReviews();
 
         } catch (error) {

@@ -15,7 +15,7 @@ export default function Login({ setToken }) {
         console.log(logIn);
         setUsername('');
         setPassword('');
-        nav('/albums');
+        nav('/account');
     }
 
     return(
