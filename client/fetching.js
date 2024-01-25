@@ -70,21 +70,43 @@ export const fetchCollections = async () => {
     }
 }
 
-export const makeCollection = async (collecion, token) => {
+export const makeCollection = async ({albumId, token, name}) => {
     try {
         console.log(token, "hello this is the token")
-        const response = await fetch(`${BASE_URL}/collecions`, {
+        const response = await fetch(`${BASE_URL}/collections`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                name: collection.name,
-                userId: collection.userId,
-                albumID: collection.albumID
+                name: name,
+                albumId: albumId
             })
         });
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export const makeCollectionEntry = async ({album_id, token, collection_id}) => {
+    try {
+        console.log(token, "hello this is the token")
+        const response = await fetch(`${BASE_URL}/collections`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                collection_id: collection_id,
+                album_id: album_id
+            })
+        });
+        console.log(response)
         const result = await response.json();
         console.log(result);
         return result
@@ -140,9 +162,7 @@ export const makeReview = async (review, token) => {
             },
             body: JSON.stringify({
                 body: review.body,
-                date: review.date,
                 tags: review.tags,
-                userId: review.userId,
                 albumId: review.albumID,
                 rating: review.rating
             })

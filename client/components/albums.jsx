@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";4
+import { Link } from "react-router-dom";
 import { useGetAlbumsQuery } from '../src/api/spinsapi';
 import ReactPaginate from 'react-paginate';
 import { fetchSpotifyAlbumArt, fetchSpotifyToken } from '../fetching'
@@ -45,8 +45,8 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
   function BuildItems({albums}) {
     return albums.map((album) => {
       return (
-        <ul>
-        <Item key={album.id} album={album}/>
+        <ul key={album.id}>
+        <Item album={album}/>
         </ul>
       )
     })
@@ -73,13 +73,11 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
     if(state.isLoadingAlbum) { return <div>Data is loading from API...</div> }
 
     return (
-      <li key={`${album.id}`} className="column">
-          <ul className="album-card">
+        <ul className="album-card" key={`${album.id}`}>
             <Link to={`/albums/${album.id}`}><img src={state.url} alt={album.title} /></Link>
             <li key="album">{album.title} </li> 
             <li key="artist">{album.artist}</li> 
-          </ul>
-      </li>
+        </ul>
     )
   }
 

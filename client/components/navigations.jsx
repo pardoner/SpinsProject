@@ -25,7 +25,7 @@ export default function Navigations({token, setToken, spotifyToken, setSpotifyTo
     <Routes>
      <Route path="/account" element={<Account token={token} setToken={setToken}/>} />
      <Route path="/albums" element={<Albums spotifyToken={spotifyToken} setSpotifyToken={setSpotifyToken}/>} />
-     <Route path="/collections" element={<Collections/>} />
+     <Route path="/collections" element={<Collections token={token}/>} />
      <Route path="/reviews" element={<Reviews token={token}/>} />
      <Route path="/login" element={<Login token={token} setToken={setToken}/>} />
      <Route path="/register" element={<Register token={token} setToken={setToken}/>} />

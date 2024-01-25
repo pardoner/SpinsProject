@@ -28,10 +28,10 @@ async function getAlbumById(albumId) {
 async function createAlbum(body) {
     try {
         const { rows: [album] } = await client.query(`
-        INSERT INTO albums(title, artist, genre, release_date, tracklist, description, "imgUrl")
-        VALUES($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO albums(title, artist, release_date, description, "imgUrl")
+        VALUES($1, $2, $3, $4, $5)
         RETURNING *;
-        `, [body.title, body.artist, body.genre, body.release_date, body.tracklist, body.description, body.imgUrl]);
+        `, [body.title, body.artist, body.release_date, body.description, body.imgUrl]);
         return album;
     } catch (error) {
         throw error;

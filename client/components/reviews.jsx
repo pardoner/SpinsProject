@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";4
+import { Link } from "react-router-dom";
 import { fetchAlbumById, fetchReviews, fetchSpotifyAlbumArt} from "../fetching"
 import { useGetReviewsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
 
@@ -36,8 +36,8 @@ export default function Review ({token, spotifyToken}) {
             return (
                 <div key={review.id} className="column">
                 <h2>{review.album.title}</h2>    
-                <ul key={review.id} className="collection-card">
-                    <li><img src={review.url} alt={review.album.title}/></li>
+                <ul key={review.album.id} className="collection-card">
+                    <Link to={`/albums/${review.album.id}`}><img src={review.url} alt={review.album.title}/></Link>
                     <li>{review.album.artist}</li>
                     <li>{review.tags}</li>
                     <li>{review.body}</li>

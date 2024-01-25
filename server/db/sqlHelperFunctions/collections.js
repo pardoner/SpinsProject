@@ -3,11 +3,12 @@ const client = require('../client');
 const util = require('util');
 
 // GET 
-async function getAllCollections() {
+async function getAllCollections(userId) {
     try {
       const { rows } = await client.query(`
-                  SELECT * FROM collections;
-              `);
+                  SELECT * FROM collections
+                  WHERE collections."userId" = $1;
+              `, [userId]);
       return rows;
     } catch (error) {
       throw error;
@@ -31,7 +32,8 @@ async function getCollectionAlbums(collectionId) {
     try {
         const { rows } = await client.query(`
       SELECT * FROM albums
-      WHERE id IN (SELECT "albumId" from collections where id = $1);
+      WHERE id IN (SELECT album_id from collection_entries
+        WHERE collection_entries.collection_id = $1);
     `, [collectionId]);
         return rows;
     } catch (error) {
@@ -40,13 +42,14 @@ async function getCollectionAlbums(collectionId) {
 }
 
 // POST -
-async function createCollection(body) {
+async function createCollection({name, userId}) {
+    console.log("making collection")
     try {
         const { rows: [collection] } = await client.query(`
-        INSERT INTO collections(name, "userId", "albumId", "imgUrl")
-        VALUES($1, $2, $3, $4)
+        INSERT INTO collections(name, "userId")
+        VALUES($1, $2)
         RETURNING *;
-        `, [body.name, body.userId, body.albumId, body.imgUrl]);
+        `, [name, userId]);
         return collection;
     } catch (error) {
         throw error;

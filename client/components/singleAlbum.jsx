@@ -6,7 +6,8 @@ import { fetchAlbumById, fetchSpotifyAlbumArt} from "../fetching"
 // import styles from "../index.css"; 
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
-import CreateCollection from './createCollection';
+import CollectionPopup from './collectionPopup';
+import ReviewPopup from './collectionPopup';
 import './createCollection.css';
 
 
@@ -19,6 +20,7 @@ export default function SingleAlbum ({token, setToken, spotifyToken}) {
   const [album, setAlbum] = useState(null)
   const [url, setUrl] = useState(null)
   const [createCollection, setCreateCollection] = useState(false);
+  const [createReview, setCreateReview] = useState(false);
 
   useEffect(() => {
     async function fetchAlbum() {
@@ -34,7 +36,6 @@ export default function SingleAlbum ({token, setToken, spotifyToken}) {
     }
 
     fetchAlbum()
-    console.log(album)
 
   }, [])
 if (!album) {
@@ -48,11 +49,11 @@ if (!album) {
         <li>{album.release_date}</li>
         <li>{album.description}</li>
         <button onClick={()=> setCreateCollection(true)}>Add To Collection</button>
-          <CreateCollection trigger={createCollection} setTrigger={setCreateCollection}>
-              <h3>My Collections</h3>
-              <p>This is my button triggered popup</p>
-          </CreateCollection>
-        <button onClick={() => addToReviews('/reviews')}>Review Album</button>
+          <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
+          </CollectionPopup>
+        <button onClick={()=> setCreateCollection(true)}>Write a Review</button>
+          <ReviewPopup trigger={createReview} setTrigger={setCreateReview} token={token}>
+          </ReviewPopup>
         <button onClick={() => backToAlbums('/albums')}>Return To Albums</button>
     </div>
   );

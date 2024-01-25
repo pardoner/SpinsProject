@@ -13,7 +13,6 @@ router.use('/collections', require('./collections'));
 // ROUTER: /api/albums
 router.use('/albums', require('./albums'));
 // ROUTER: /api/journals
-router.use('/journals', require('./journals'));
 
 // ROUTER: /api/reviews
 router.use('/reviews', require('./reviews'));

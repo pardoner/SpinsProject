@@ -5,9 +5,9 @@ const { createAlbum, getAllAlbums } = require('./sqlHelperFunctions/albums')
 const { createCollection, getAllCollections } = require('./sqlHelperFunctions/collections')
 const { createReview, getAllReviews } = require('./sqlHelperFunctions/reviews')
 const { createUser, getAllUsers } = require('./sqlHelperFunctions/users')
+const { createCollectionEntry } = require('./sqlHelperFunctions/collection_entries')
 
-
-const { collections, reviews, users } = require('./seedData')
+const { collections, reviews, users, collection_entries } = require('./seedData')
 const albums = require('./albums.json')
 
 rebuildDB()
@@ -19,6 +19,7 @@ rebuildDB()
       try {
           console.log('Dropping All Tables...');
           await client.query(`
+        DROP TABLE IF EXISTS collection_entries;
         DROP TABLE IF EXISTS collections;
         DROP TABLE IF EXISTS reviews;
         DROP TABLE IF EXISTS users;
@@ -38,7 +39,6 @@ rebuildDB()
           id SERIAL PRIMARY KEY,
           title VARCHAR(255) NOT NULL,
           artist VARCHAR(255) NOT NULL,
-          genre VARCHAR(255),
           release_date TEXT,
           description TEXT,
           "imgUrl" VARCHAR(255) DEFAULT 'https://st4.depositphotos.com/11065358/29775/v/450/depositphotos_297757886-stock-illustration-vinyl-plate-disc-isolated-on.jpg'
@@ -53,10 +53,13 @@ rebuildDB()
           );
           CREATE TABLE collections (
               id SERIAL PRIMARY KEY,
-              name VARCHAR(255) UNIQUE NOT NULL,
-              "userId" INT REFERENCES users(id) NOT NULL,
-              "albumId" INT REFERENCES albums(id) NOT NULL
-              "imgUrl" VARCHAR(255) DEFAULT 'https://st4.depositphotos.com/11065358/29775/v/450/depositphotos_297757886-stock-illustration-vinyl-plate-disc-isolated-on.jpg'
+              name VARCHAR(255) NOT NULL,
+              "userId" INT REFERENCES users(id) NOT NULL
+          );
+          CREATE TABLE collection_entries (
+            id SERIAL PRIMARY KEY,
+            collection_id INT REFERENCES collections(id) NOT NULL,
+            album_id INT REFERENCES albums(id) NOT NULL
           );
           CREATE TABLE reviews (
               id SERIAL PRIMARY KEY,
@@ -91,6 +94,17 @@ const createInitialCollections = async () => {
             await createCollection(collection)
         }
         console.log("created collections")
+    } catch (error) {
+        throw error
+    }
+}
+
+const createInitialCollectionEntries = async () => {
+    try {
+        for (const entry of collection_entries) {
+            await createCollectionEntry(entry)
+        }
+        console.log("created collection entry")
     } catch (error) {
         throw error
     }
@@ -131,6 +145,7 @@ const createInitialUsers = async () => {
           await createInitialUsers();
           await createInitialCollections();
           await createInitialReviews();
+          await createInitialCollectionEntries();
 
         } catch (error) {
             console.error(error)
