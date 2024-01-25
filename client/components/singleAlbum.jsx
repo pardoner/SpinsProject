@@ -7,7 +7,7 @@ import { fetchAlbumById, fetchSpotifyAlbumArt} from "../fetching"
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
 import CollectionPopup from './collectionPopup';
-import ReviewPopup from './collectionPopup';
+import ReviewPopup from './reviewPopup';
 import './createCollection.css';
 
 
@@ -51,7 +51,7 @@ if (!album) {
         <button onClick={()=> setCreateCollection(true)}>Add To Collection</button>
           <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
           </CollectionPopup>
-        <button onClick={()=> setCreateCollection(true)}>Write a Review</button>
+        <button onClick={()=> setCreateReview(true)}>Write a Review</button>
           <ReviewPopup trigger={createReview} setTrigger={setCreateReview} token={token}>
           </ReviewPopup>
         <button onClick={() => backToAlbums('/albums')}>Return To Albums</button>

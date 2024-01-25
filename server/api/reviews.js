@@ -26,7 +26,10 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', authRequired, async (req, res, next) => {
     try {
-        const review = await createReview(req.body);
+        const user = await getUserFromRequest(req)
+        let body = Object.create(req.body)
+        body.userId = user.id
+        const review = await createReview(body);
         res.send(review);
     } catch (err) {
         next(err);

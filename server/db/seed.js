@@ -64,11 +64,11 @@ rebuildDB()
           CREATE TABLE reviews (
               id SERIAL PRIMARY KEY,
               body TEXT,
-              date DATE,
+              date DATE default current_timestamp,
               tags TEXT,
               rating INT,
               "userId" INT REFERENCES users(id) NOT NULL,
-              "albumId" INT REFERENCES albums(id)
+              "albumId" INT REFERENCES albums(id) NOT NULL
               );
           `);
       } catch (error) {

@@ -163,7 +163,7 @@ export const makeReview = async (review, token) => {
             body: JSON.stringify({
                 body: review.body,
                 tags: review.tags,
-                albumId: review.albumID,
+                albumId: review.albumId,
                 rating: review.rating
             })
         });
