@@ -16,9 +16,9 @@ export default function Navigations({token, setToken, spotifyToken, setSpotifyTo
   return (
     <div id="container">
     <div id="navbar">
-      <Link to="/albums"> Albums</Link> | 
-      <Link to="/collections"> Collection</Link> |
-      <Link to="/reviews"> Reviews</Link> | 
+      <Link to="/albums"> Albums</Link>
+      <Link to="/collections"> Collections</Link>
+      <Link to="/reviews"> Reviews</Link>
       {token ? (<Link to="/account"> Account</Link>) : (<Link to="/login"> Login</Link>) }
     </div>
     <div id="main-section">

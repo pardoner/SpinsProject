@@ -9,8 +9,16 @@ import { useNavigate } from 'react-router-dom';
 export default function Account ({token, setToken}) {
   console.log(token)
   const nav = useNavigate();
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const { data, error, isLoading } = useGetMeQuery(token);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+     }, 1000);
+        return () => clearInterval(intervalId);
+    }, []) 
 
   if (isLoading) {
     return <div>Loading...</div>; 
@@ -29,11 +37,13 @@ export default function Account ({token, setToken}) {
 
   const user = data
   console.log(data)
+
     return (
     <div className="account">
       <h1>Account</h1>
-        <p>Hi {user.first_name} {user.last_name}</p> 
+        <p>Hi, {user.first_name} {user.last_name}!</p> 
         <p>{user.email}</p>
+        <p>{currentDate.toLocaleString()}</p>
         <>
             <p>Done for the day?</p>
             { token ? (<button id="logout-button" onClick={handleClick}>

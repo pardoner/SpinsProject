@@ -45,9 +45,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
   function BuildItems({albums}) {
     return albums.map((album) => {
       return (
-        <ul key={album.id}>
-        <Item album={album}/>
-        </ul>
+        <Item key={album.id} album={album}/>
       )
     })
   }
@@ -55,7 +53,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
   function Item({album}) {
     const [state, setState] = useState({
       isLoadingAlbum: true,
-      url: {}
+      url: album.imgUrl
     });
 
     useEffect(() => {
@@ -71,10 +69,9 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
     }, []);
 
     if(state.isLoadingAlbum) { return <div>Data is loading from API...</div> }
-
     return (
-        <ul className="album-card" key={`${album.id}`}>
-            <Link to={`/albums/${album.id}`}><img src={state.url} alt={album.title} /></Link>
+        <ul className="album-card" key={album.id}>
+            <Link to={`/albums/${album.id}`}><img className="albumImg" src={state.url} alt={album.title} /></Link>
             <li key="album">{album.title} </li> 
             <li key="artist">{album.artist}</li> 
         </ul>
@@ -109,7 +106,9 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
 
     return (
       <>
-        <BuildItems albums={currentItems} />
+        <div className="all-albums-container">
+          <BuildItems albums={currentItems} />
+          </div>
         <ReactPaginate
           breakLabel="..."
           nextLabel="next >"
@@ -128,7 +127,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
       <h1>Albums</h1>
       <p id="pickAlbum">Select an album to see more details.</p>
         <input onInput={(e)=> handleChange(e)}></input>
-        {data && <PaginatedItems itemsPerPage={5} />}
+        {data && <PaginatedItems itemsPerPage={20} />}
      </div> 
     );
 }

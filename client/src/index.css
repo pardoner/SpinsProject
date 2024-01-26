@@ -13,9 +13,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+ } 
+
 .logo-image {
   width: 50px;
   height: 50px;
+}
+
+.name {
+  text-align: justify;
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  font-size: 3.2em;
 }
 
 a {
@@ -29,15 +43,41 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  padding-left: 5%;
   place-items: center;
-  min-width: 320px;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   min-height: 100vh;
+  background-image: url(https://t4.ftcdn.net/jpg/01/85/05/47/360_F_185054754_4fTfc14FT7uLYtNnpAF3WhMfUWwha4eV.jpg);
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2.2em;
   line-height: 1.1;
+  text-align: center;
+}
+
+#navbar {
+  height: 100%; /* 100% Full-height */
+  width: 25; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+#navbar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  margin-right: 10%;
 }
 
 button {
@@ -82,4 +122,46 @@ button:focus-visible {
 #logout-button[disabled] {
   background-color: lightgray;
   color: gray;
+}
+
+
+div {background-color: whitesmoke;}
+
+.all-albums-container {
+  display: grid;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  text-align: center;
+  background-color: white;
+  padding-top: 5vh;
+  width: 20vw;
+}
+
+.albumImg {
+  height: 200px;
+  width: 200px;
+} 
+
+li {
+  list-style-type: none;
+  size: 50%;
+}
+
+p {
+  text-align: center;
+}
+
+.collection-cards {
+  background-color: aqua;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.singleArt {
+  height: 300px;
+  width: 300px;
+}
+
+.label {
+  font-weight: bold;
 }

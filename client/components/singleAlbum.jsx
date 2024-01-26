@@ -25,9 +25,15 @@ export default function SingleAlbum ({token, setToken, spotifyToken}) {
   useEffect(() => {
     async function fetchAlbum() {
       const res = await fetchAlbumById(id).then( (res) => {
+        setUrl(res.imgUrl)
+        console.log(res)
         async function fetchArt() {
           fetchSpotifyAlbumArt(res.title, res.artist, spotifyToken).then((response) => {
-            setUrl(response)
+            if (response) {
+              console.log(response)
+              setUrl(response)
+            }
+
           })
         }
         fetchArt()
@@ -44,9 +50,9 @@ if (!album) {
   return (
     <div key={album.id} className="singleAlbum column">
       <h1>{album.title}</h1>
-        <img src={url} alt={album.title} />
-        <li>{album.artist}</li> 
-        <li>{album.release_date}</li>
+        <img className="singleArt" src={url} alt={album.title} />
+        <h3>{album.artist}</h3> 
+        <li className="label">{album.release_date}</li>
         <li>{album.description}</li>
         <button onClick={()=> setCreateCollection(true)}>Add To Collection</button>
           <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>

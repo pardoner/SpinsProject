@@ -20,8 +20,6 @@ router.post('/login', async (req, res, next) => {
         
         res.cookie("token", token, {
 		    sameSite: "strict",
-		    httpOnly: true,
-			signed: true,
 		});
         res.send({ token });
     } catch (error) {
@@ -49,7 +47,6 @@ router.post('/', async (req, res, next) => {
         
         res.cookie("token", token, {
 		    sameSite: "strict",
-		    httpOnly: true,
 			signed: true,
 		});
         res.send({ token });

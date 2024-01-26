@@ -103,7 +103,7 @@ export const makeCollectionEntry = async ({album_id, token, collection_id}) => {
             },
             body: JSON.stringify({
                 collection_id: collection_id,
-                album_id: album_id
+                albumId: album_id
             })
         });
         console.log(response)
@@ -128,6 +128,44 @@ export const fetchCollectionAlbumsById = async (collectionId) => {
 export const fetchCollectionById = async (collectionId) => {
     try {
         const response = await fetch(`${BASE_URL}/collections/${collectionId}`)
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export const deleteCollectionAlbum = async (album_id, token, collection_id) => {
+    try {
+        console.log(token, "hello this is the token")
+        const response = await fetch(`${BASE_URL}/collections/${collection_id}/${album_id}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log(response)
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export const deleteCollectionById = async (collectionId, token) => {
+    try {
+        console.log(token, "hello this is the token")
+        const response = await fetch(`${BASE_URL}/collections/${collectionId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log(response)
         const result = await response.json();
         console.log(result);
         return result
@@ -163,7 +201,51 @@ export const makeReview = async (review, token) => {
             body: JSON.stringify({
                 body: review.body,
                 tags: review.tags,
+                date: review.date,
                 albumId: review.albumId,
+                rating: review.rating
+            })
+        });
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export const deleteReview = async (review_id, token) => {
+    try {
+        console.log(token, "hello this is the token")
+        const response = await fetch(`${BASE_URL}/reviews/${review_id}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const result = await response.json();
+        console.log(result);
+        return result
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export const editReview = async (review, token) => {
+    try {
+        console.log(token, "hello this is the token")
+        const response = await fetch(`${BASE_URL}/reviews/${review.id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                albumId: review.albumId,
+                body: review.body,
+                tags: review.tags,
+                date: review.date,
                 rating: review.rating
             })
         });

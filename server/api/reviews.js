@@ -45,7 +45,7 @@ router.put('/:id', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authRequired, async (req, res, next) => {
     try {
         const review = await deleteReview(req.params.id);
         res.send(review);

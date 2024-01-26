@@ -1,7 +1,7 @@
 const client = require('./client');
 // TODO: DUMMY DATA
 
-const { createAlbum, getAllAlbums } = require('./sqlHelperFunctions/albums')
+const { createAlbumWithoutImage } = require('./sqlHelperFunctions/albums')
 const { createCollection, getAllCollections } = require('./sqlHelperFunctions/collections')
 const { createReview, getAllReviews } = require('./sqlHelperFunctions/reviews')
 const { createUser, getAllUsers } = require('./sqlHelperFunctions/users')
@@ -41,7 +41,7 @@ rebuildDB()
           artist VARCHAR(255) NOT NULL,
           release_date TEXT,
           description TEXT,
-          "imgUrl" VARCHAR(255) DEFAULT 'https://st4.depositphotos.com/11065358/29775/v/450/depositphotos_297757886-stock-illustration-vinyl-plate-disc-isolated-on.jpg'
+          "imgUrl" VARCHAR DEFAULT 'https://st4.depositphotos.com/11065358/29775/v/450/depositphotos_297757886-stock-illustration-vinyl-plate-disc-isolated-on.jpg' NOT NULL
           );
           CREATE TABLE users (
             id SERIAL PRIMARY KEY,
@@ -58,7 +58,7 @@ rebuildDB()
           );
           CREATE TABLE collection_entries (
             id SERIAL PRIMARY KEY,
-            collection_id INT REFERENCES collections(id) NOT NULL,
+            collection_id INT REFERENCES collections(id) ON DELETE CASCADE NOT NULL,
             album_id INT REFERENCES albums(id) NOT NULL
           );
           CREATE TABLE reviews (
@@ -80,7 +80,7 @@ rebuildDB()
     try {
         //Looping through the "trainers" array from seedData
         for (const album of albums) {
-            await createAlbum(album)
+            await createAlbumWithoutImage(album)
         }
         console.log("created albums")
     } catch (error) {

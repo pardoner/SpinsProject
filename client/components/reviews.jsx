@@ -1,36 +1,25 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchAlbumById, fetchReviews, fetchSpotifyAlbumArt} from "../fetching"
+import { useNavigate } from 'react-router-dom';
+import { fetchAlbumById, fetchReviews, fetchSpotifyAlbumArt, deleteReview, editReview } from "../fetching"
+import { Rating } from 'react-simple-star-rating';
+import ReviewPopup from './reviewPopup';
 import { useGetReviewsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
 
 export default function Reviews({token, spotifyToken}) {
     const [reviews, setReviews] = useState(null)
-  
-    function ReviewBuilder({revs}) {
+     const [editReview, setEditReview] = useState(false);
+     const [reviewToEdit, setReviewToEdit] = useState();
+    const nav = useNavigate();
 
-        if (!revs) {
-            return
-        }
-        return (
-            <div className="all-reviews">
-                {revs.map((review) => {
-                    <div key={review.id} className="column">
-                        <h2>{review.album.title}</h2>    
-                        <ul key={review.album.id} className="collection-card">
-                            <Link to={`/albums/${review.album.id}`}><img src={review.url} alt={review.album.title}/></Link>
-                            <li>{review.album.artist}</li>
-                            <li>{review.tags}</li>
-                            <li>{review.body}</li>
-                            <li>Rating = {review.rating}/10</li>
-                        </ul>
-                    </div>
-                })}
-            </div>
-            
-        )
-    }
-    async function fetchData() {
+function reviewDate(date) {
+    let newDate = date.slice(0, 10);
+    return newDate;
+}
+
+    useEffect(() => {
+        async function fetchData() {
         let review_response =  await fetchReviews(token)
         console.log(review_response)
         async function combineReviews(revs) {
@@ -52,33 +41,52 @@ export default function Reviews({token, spotifyToken}) {
         console.log(reviews)
 
     }
-    useEffect(() => {
+
     fetchData()
     }, [])
     if (!reviews) {
         return
     }
 
+    async function removeReview(review_id) {
+         let removedReview =  await deleteReview(review_id, token)
+        console.log(removedReview)
+     }
+
+
+    function prepEditReview(review) {
+        setReviewToEdit(review)
+        setEditReview(true)
+        console.log(review)
+    }
+
     console.log(reviews)
     return (
         <div>
             <h1>Reviews</h1>
+            <br></br>
             <div className="all-reviews">
+                {token ? <p>Go to the <a href="/albums">albums</a> page to write a review.</p> : <p>log in or create an account to start reviewing!</p>}
                 {reviews.map((review) => {
-                    console.log("here")
                     return (
                     <div key={review.id} className="column">
                         <h2>{review.album.title}</h2>    
                         <ul key={review.album.id} className="collection-card">
                             <Link to={`/albums/${review.album.id}`}><img src={review.url} alt={review.album.title}/></Link>
                             <li>{review.album.artist}</li>
+                            <Rating initialValue={review.rating} readonly={true}/>
+                            <li>{reviewDate(review.date)}</li>
                             <li>{review.tags}</li>
                             <li>{review.body}</li>
-                            <li>Rating = {review.rating}/10</li>
                         </ul>
+                        <button onClick={()=> prepEditReview(review)}>Edit</button>
+                        
+                        <button onClick={() => removeReview(review.id)}>Delete</button>
                     </div>
                     )
                 })}
+                <ReviewPopup review={reviewToEdit} setReview={setReviewToEdit} trigger={editReview} setTrigger={setEditReview} token={token}>
+                </ReviewPopup>
             </div>
         </div>
     );

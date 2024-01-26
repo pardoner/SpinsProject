@@ -8,9 +8,8 @@ import { useGetCollectionsQuery } from '../src/api/spinsapi'; // Import the gene
 function CollectionPopup(props) {
   const { id } = useParams()
   const { data, error, isLoading } = useGetCollectionsQuery(props.token);
-  const [newCollectionEntry, setNewCollectionEntry] = useState("Select a collection")
+  const [newCollectionEntry, setNewCollectionEntry] = useState(-1)
   
-
 
   function handleChange(event) {
     setNewCollectionEntry({value: event.target.value});

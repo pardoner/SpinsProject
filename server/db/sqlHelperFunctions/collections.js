@@ -93,11 +93,27 @@ async function deleteCollection(collectionId) {
     }
 }
 
+async function deleteCollectionAlbum(collectionId, albumId) {
+    try {
+        const { rows: [collection] } = await client.query(`
+      DELETE FROM collection_entries
+      WHERE collection_id=$1
+      AND album_id = $2
+      RETURNING *;
+    `, [collectionId, albumId]);
+        return collection;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 module.exports = {
     getAllCollections,
     getCollectionById,
     createCollection,
     updateCollection,
     deleteCollection,
-    getCollectionAlbums
+    getCollectionAlbums,
+    deleteCollectionAlbum
 };

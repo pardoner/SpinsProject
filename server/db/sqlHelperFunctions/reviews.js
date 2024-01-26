@@ -31,6 +31,7 @@ async function getReviewById(reviewId) {
 // POST -
 async function createReview(body) {
     try {
+        console.log(body.tags)
         const { rows: [review] } = await client.query(`
         INSERT INTO reviews(body, date, tags, rating, "userId", "albumId")
         VALUES($1, $2, $3, $4, $5, $6)

@@ -3,9 +3,18 @@ const { JWT_SECRET } = require('../secrets')
 const { getUserByUsername } = require('../db/sqlHelperFunctions/users')
 
 const authRequired = (req, res, next) => {
-  const token = req.get('Authorization').split(' ')[1];
-  console.log(token);
-
+  let token = null
+  if (req.get('Authorization')) {
+    console.log(`${JSON.stringify(req.cookies)} cookie token`)
+    token = req.get('Authorization').split(' ')[1];
+    console.log(token);
+  } else {
+    token = req.cookies.token
+  }
+  if (!token){
+    throw new Error('No Token Given')
+  }
+  
   try {
    jwt.verify(token, JWT_SECRET);
   } catch (error) {

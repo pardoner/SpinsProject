@@ -37,6 +37,18 @@ async function createAlbum(body) {
         throw error;
     }
 }
+async function createAlbumWithoutImage(body) {
+    try {
+        const { rows: [album] } = await client.query(`
+        INSERT INTO albums(title, artist, release_date, description)
+        VALUES($1, $2, $3, $4)
+        RETURNING *;
+        `, [body.title, body.artist, body.release_date, body.description]);
+        return album;
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 
@@ -58,7 +70,8 @@ module.exports = {
     getAllAlbums,
     getAlbumById,
     createAlbum,
-    deleteAlbum
+    deleteAlbum,
+    createAlbumWithoutImage
 };
 
 
