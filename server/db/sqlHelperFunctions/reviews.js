@@ -2,7 +2,6 @@
 const client = require('../client');
 const util = require('util');
 
-// GET 
 async function getAllReviews(userId) {
     try {
       const { rows } = await client.query(`
@@ -15,7 +14,6 @@ async function getAllReviews(userId) {
     }
   }
 
-// GET - /api/albums/:albumId - get album by id
 async function getReviewById(reviewId) {
     try {
         const { rows: [review] } = await client.query(`
@@ -28,7 +26,7 @@ async function getReviewById(reviewId) {
     }
 }
 
-// POST -
+
 async function createReview(body) {
     try {
         console.log(body.tags)
@@ -44,10 +42,8 @@ async function createReview(body) {
 }
 
 async function updateReview(reviewId, fields = {}) {
-    // build the set string
     const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
 
-    // return early if this is called without fields
     if (setString.length === 0) {
         return;
     }
@@ -66,7 +62,6 @@ async function updateReview(reviewId, fields = {}) {
     }
 }
 
-// DELETE - /api/albums/:album_id - delete an album
 async function deleteReview(reviewId) {
     try {
         const { rows: [review] } = await client.query(`

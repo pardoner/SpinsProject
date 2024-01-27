@@ -32,17 +32,6 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-
-// router.get('/:id', async (req, res, next) => {
-//     try {
-//         const collection = await getCollectionById(req.params.id);
-//         res.send(collection);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
-
-
 router.post('/', authRequired, async (req, res, next) => {
     try {
         const user = await getUserFromRequest(req)

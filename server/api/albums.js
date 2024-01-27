@@ -3,7 +3,6 @@ const router = express.Router();
 const { authRequired } = require('./util');
 const { getAllAlbums, getAlbumById, createAlbum } = require('../db/sqlHelperFunctions/albums');
 
-// GET - /api/albums - get all albums
 router.get('/', async (req, res, next) => {
     try {
         const albums = await getAllAlbums();

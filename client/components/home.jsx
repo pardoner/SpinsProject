@@ -9,6 +9,9 @@ function App() {
       <div>
         <p>Welcome to Spins!</p>
         <p>Spins is an album logging application. Create an account or login to explore albums.</p>
+        <p>On the albums page, you'll be able to search through albums from the Rolling Stones's Top 500 Albums selections. Press an album for more information.</p>
+        <p>Log and organize a record collection virtually, or make a wishlist!</p>
+        <p>Review albums and collect the albums you've been spinning!</p>
       </div>
     )
   }

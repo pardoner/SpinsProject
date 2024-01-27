@@ -2,7 +2,6 @@
 const client = require('../client');
 const util = require('util');
 
-// GET 
 async function getAllCollections(userId) {
     try {
       const { rows } = await client.query(`
@@ -15,7 +14,6 @@ async function getAllCollections(userId) {
     }
   }
 
-// GET - /api/albums/:albumId - get album by id
 async function getCollectionById(collectionId) {
     try {
         const { rows: [collection] } = await client.query(`
@@ -41,7 +39,6 @@ async function getCollectionAlbums(collectionId) {
     }
 }
 
-// POST -
 async function createCollection({name, userId}) {
     console.log("making collection")
     try {
@@ -57,10 +54,8 @@ async function createCollection({name, userId}) {
 }
 
 async function updateCollection(collectionId, fields = {}) {
-    // build the set string
     const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
 
-    // return early if this is called without fields
     if (setString.length === 0) {
         return;
     }
@@ -79,7 +74,6 @@ async function updateCollection(collectionId, fields = {}) {
     }
 }
 
-// DELETE - /api/albums/:album_id - delete an album
 async function deleteCollection(collectionId) {
     try {
         const { rows: [collection] } = await client.query(`

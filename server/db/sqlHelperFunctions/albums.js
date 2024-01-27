@@ -24,7 +24,6 @@ async function getAlbumById(albumId) {
     }
 }
 
-// POST -
 async function createAlbum(body) {
     try {
         const { rows: [album] } = await client.query(`
@@ -51,8 +50,6 @@ async function createAlbumWithoutImage(body) {
 }
 
 
-
-// DELETE - /api/albums/:album_id - delete an album
 async function deleteAlbum(albumId) {
     try {
         const { rows: [album] } = await client.query(`

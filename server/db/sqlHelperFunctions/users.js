@@ -4,7 +4,6 @@ const util = require('util');
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../../secrets')
 
-// GET 
 async function getAllUsers() {
     try {
       const { rows } = await client.query(`
@@ -16,7 +15,6 @@ async function getAllUsers() {
     }
   }
 
-// GET - 
 async function getUserById(id) {
     try {
         const { rows: [user] } = await client.query(`
@@ -41,7 +39,7 @@ async function getUserByUsername(username) {
         throw error;
     }
 }
-// POST -
+
 async function createUser(body) {
     try {
         const { rows: [user] } = await client.query(`
@@ -56,7 +54,7 @@ async function createUser(body) {
     }
 }
 
-// body = {"username" : "XXXX", "password": "wwww"}
+
 async function postLogin(body) {
     try {
         const { rows : [user] } = await client.query(`
@@ -78,15 +76,10 @@ async function postLogin(body) {
     }
 }
 
-// create token 
-// throw http errors
-// in util uncomment token verify 
 
 async function updateUser(id, fields = {}) {
-    // build the set string
     const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(', ');
 
-    // return early if this is called without fields
     if (setString.length === 0) {
         return;
     }
@@ -105,7 +98,6 @@ async function updateUser(id, fields = {}) {
     }
 }
 
-// DELETE - /api/albums/:album_id - delete an album
 async function deleteUser(id) {
     try {
         const { rows: [user] } = await client.query(`

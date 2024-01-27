@@ -128,13 +128,13 @@ button:focus-visible {
 div {background-color: whitesmoke;}
 
 .all-albums-container {
-  display: grid;
+  display: flex;
   flex-wrap: wrap;
   flex-flow: row wrap;
   text-align: center;
   background-color: white;
   padding-top: 5vh;
-  width: 20vw;
+  width: 80%;
 }
 
 .albumImg {

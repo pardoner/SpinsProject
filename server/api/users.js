@@ -40,7 +40,6 @@ router.get('/me',authRequired, async (req, res, next) => {
 });
 
 
-// register
 router.post('/', async (req, res, next) => {
     try {
         const token = await createUser(req.body);

@@ -15,16 +15,31 @@ export default function SingleCollection ({token, setToken, spotifyToken}) {
   const [albums, setAlbums] = useState([])
   const [collection, setCollection] = useState({})
   const nav = useNavigate()
-  // const [
-  //   removedAlbum,
-  //   { isLoading: isRemoving },
-  // ] = deleteCollectionEntry();
+  // const newCollectionPage = () => {
+  //   const { isLoading, data, isError, error, isFetching } = useGetSingleCollectionQuery(
+  //     'collections',
+  //     fetchCollectionAlbumsById,
+  //     {refetchOnMount: true,
+  //     }
+      
+  //   )
+  //   console.log({isLoading, isFetching})
+
+  //   if (isLoading) {
+  //     return <h1>Loading...</h1>
+  //   }
+  //   if (isError) {
+  //     return <h2>error.message</h2>
+  //   }
+  // }
+  // // const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
     async function fetchCollection() {
       let res = await fetchCollectionAlbumsById(id)
       const coll_res = await fetchCollectionById(id)
       setCollection(coll_res)
+      console.log(coll_res)
       async function fetchArt(albs) {
         await albs.forEach(async (album) => {
           let url = await fetchSpotifyAlbumArt(album.title, album.artist, spotifyToken)
@@ -39,25 +54,20 @@ export default function SingleCollection ({token, setToken, spotifyToken}) {
     fetchCollection()
   }, [])
 
-if (albums.length == 0) {
-  return
-}
-
 async function removeAlbum(album_id) {
     let removedAlbum = await deleteCollectionAlbum(album_id, token, id)
     console.log(removedAlbum)
-    // refetch()
-    // refresh page once if goes through 
+    // refetch();
   }
 
 async function deleteCollection() {
   let deletedCollection = await deleteCollectionById(id, token)
-  // more stuff
   nav('/collections')
 
 }
 
 return (
+  <>
   <div key={id} className="singleCollection column">
     <h1>{collection.name}</h1>
     <div className="all-albums-container">
@@ -72,8 +82,9 @@ return (
         </ul>)
       })}
     </div>
-    <button onClick={() => deleteCollection()}>Delete Collection</button>
-    <button onClick={() => backToCollections('/collections')}>Return To Collections</button>
   </div>
+        <button onClick={() => deleteCollection()}>Delete Collection</button>
+        <button onClick={() => backToCollections('/collections')}>Return To Collections</button>
+  </>
   );
   }

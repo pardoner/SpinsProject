@@ -2,7 +2,6 @@
 const client = require('../client');
 const util = require('util');
 
-// POST -
 async function createCollectionEntry({collection_id, album_id}) {
     try {
         const { rows: [entry] } = await client.query(`
@@ -16,7 +15,6 @@ async function createCollectionEntry({collection_id, album_id}) {
     }
 }
 
-// DELETE - /api/albums/:album_id - delete an album
 async function deleteCollectionEntry(id) {
     try {
         const { rows: [collection] } = await client.query(`

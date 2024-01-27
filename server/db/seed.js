@@ -1,5 +1,4 @@
 const client = require('./client');
-// TODO: DUMMY DATA
 
 const { createAlbumWithoutImage } = require('./sqlHelperFunctions/albums')
 const { createCollection, getAllCollections } = require('./sqlHelperFunctions/collections')
@@ -14,7 +13,6 @@ rebuildDB()
   .catch(console.error)
   .finally(() => client.end());
 
-  // drop tables for video games and board games
   async function dropTables() {
       try {
           console.log('Dropping All Tables...');
@@ -30,7 +28,6 @@ rebuildDB()
       }
   }
   
-  // build tables for video games and board games
   async function createTables() {
       try {
           console.log('Building All Tables...');
@@ -78,7 +75,6 @@ rebuildDB()
 
   const createInitialAlbums = async () => {
     try {
-        //Looping through the "trainers" array from seedData
         for (const album of albums) {
             await createAlbumWithoutImage(album)
         }
@@ -112,7 +108,6 @@ const createInitialCollectionEntries = async () => {
 
 const createInitialReviews = async () => {
     try {
-        //Looping through the "trainers" array from seedData
         for (const review of reviews) {
             await createReview(review)
         }
@@ -124,7 +119,6 @@ const createInitialReviews = async () => {
 
 const createInitialUsers = async () => {
     try {
-        //Looping through the "trainers" array from seedData
         for (const user of users) {
             await createUser(user)
         }
@@ -135,7 +129,6 @@ const createInitialUsers = async () => {
 }
 
   
-  // build all tables and create initial data
   async function rebuildDB() {
       try {
           client.connect();

@@ -126,7 +126,9 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
       <div>
       <h1>Albums</h1>
       <p id="pickAlbum">Select an album to see more details.</p>
-        <input onInput={(e)=> handleChange(e)}></input>
+      <p>Search for an album by title or artist name: 
+     <input onInput={(e)=> handleChange(e)}></input>
+     </p>
         {data && <PaginatedItems itemsPerPage={20} />}
      </div> 
     );
