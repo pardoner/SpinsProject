@@ -1,7 +1,5 @@
 
-Deployed Backend:
-
-Deployed Frontend:
+Deployed site: https://spins.onrender.com
 
 
 Hello!
