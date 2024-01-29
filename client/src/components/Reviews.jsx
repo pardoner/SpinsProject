@@ -31,15 +31,13 @@ function reviewDate(date) {
                     let new_review = { ...review }
                     new_review.album = album;
                     new_review.url = url;
-                    console.log(new_review)
                     my_reviews.push(new_review);
             }))
-            console.log(my_reviews)
             setReviews(my_reviews)
         }
-        await combineReviews(review_response)
-        console.log(reviews)
-
+        if (!token) {
+            await combineReviews(review_response)
+        }
     }
 
     fetchData()
