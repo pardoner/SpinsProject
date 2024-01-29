@@ -13,11 +13,8 @@ export default function Collections ({token}) {
       return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>
   }
 
-  if (error) {
-    if(error.status == 401){
-       return <p>Log in or create an account to start collecting!</p>
-    }
-    return <div>Error: {error.message}</div>; 
+  if (error.status == 401) {
+    return <p>Log in or create an account to start collecting!</p>
   }
 
   console.log(data)
