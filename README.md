@@ -17,3 +17,5 @@ Collections created will appear on the collection page, and by clicking on a col
 If a review is created, it will show up with the current datestamp on the reviews page. Reviews can be deleted or edited if the user decides to give the album a second look. 
 
 After completing a session of collection and reviewing, the user can log out using the button on the account page. 
+
+One thing I struggled with was on getting the pages to automatically refresh on changes. If you go to the reviews or collections page and don't see anything, please refresh the page once or twice! Sorry for the trouble.

@@ -27,6 +27,8 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
+// add 404 if no usre anf 403 wrong password 
+
 router.get('/me',authRequired, async (req, res, next) => {
     try {
         const token = req.get('Authorization').split(' ')[1];

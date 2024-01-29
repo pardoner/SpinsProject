@@ -63,9 +63,7 @@ async function postLogin(body) {
         `, [body.username]
         )
         if (!user) {
-            user(404).send("Not found."); // or res.status 404? 
-        } else if (user.password != body.password) {
-            user(403).send("Unauthorized.");
+            return null;
         }
         const token = jwt.sign({username: body.username}, JWT_SECRET);
 

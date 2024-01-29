@@ -53,10 +53,11 @@ if (!album) {
         <h3>{album.artist}</h3> 
         <li className="label">{album.release_date}</li>
         <li>{album.description}</li>
-        <button className="btn btn-primary" onClick={()=> setCreateCollection(true)}>Add To Collection</button>
-          <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
-          </CollectionPopup>
-        <button className="btn btn-primary" onClick={()=> setCreateReview(true)}>Write a Review</button>
+        { token? <button className="btn btn-primary" onClick={()=> setCreateCollection(true)}>Add To Collection</button> : null }
+           { token ? <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
+          </CollectionPopup> : 
+          <button className="btn btn-primary" onClick={()=> backToAlbums("/login")}>Login</button>}
+        { token ? <button className="btn btn-primary" onClick={()=> setCreateReview(true)}>Write a Review</button> : null }
           <ReviewPopup trigger={createReview} setTrigger={setCreateReview} token={token}>
           </ReviewPopup>
           <br></br>
