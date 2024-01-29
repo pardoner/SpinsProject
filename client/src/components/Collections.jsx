@@ -26,7 +26,7 @@ export default function Collections ({token}) {
       <div>
       <h1>Collections</h1>
       {token ? <p>Go to the <a href="/albums">albums</a> page to add to a collection. Select a collection to see your records.</p> : <p>Log in or create an account to start collecting!</p>}
-      <div className="all-collections-container">
+      { token && {<div className="all-collections-container">
         {
         data.map((collection) => {
           return (
@@ -39,5 +39,6 @@ export default function Collections ({token}) {
         })}
       </div>
      </div> 
+    }}
     );
 }
