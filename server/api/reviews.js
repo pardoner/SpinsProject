@@ -4,7 +4,7 @@ const { authRequired, getUserFromRequest } = require('./util');
 const {    getAllReviews, getReviewById, createReview, updateReview, deleteReview } = require('../db/sqlHelperFunctions/reviews');
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', authRequired, async (req, res, next) => {
     try {
         const user = await getUserFromRequest(req)
         const review = await getAllReviews(user.id);
@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', authRequired, async (req, res, next) => {
     try {
         const review = await getReviewById(req.params.id);
         res.send(review);
@@ -36,7 +36,7 @@ router.post('/', authRequired, async (req, res, next) => {
     }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', authRequired, async (req, res, next) => {
     try {
         const review = await updateReview(req.params.id, req.body);
         res.send(review);

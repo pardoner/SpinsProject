@@ -4,7 +4,7 @@ const { authRequired, getUserFromRequest } = require('./util');
 const { getAllCollections, getCollectionById, createCollection, updateCollections, deleteCollection, getCollectionAlbums, deleteCollectionAlbum } = require('../db/sqlHelperFunctions/collections');
 const { createCollectionEntry } = require('../db/sqlHelperFunctions/collection_entries');
 
-router.get('/', async (req, res, next) => {
+router.get('/', authRequired, async (req, res, next) => {
     try {
         const user = await getUserFromRequest(req)
         const collections = await getAllCollections(user.id);
@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id/albums', async (req, res, next) => {
+router.get('/:id/albums', authRequired, async (req, res, next) => {
     try {
         const collections = await getCollectionAlbums(req.params.id);
         res.send(collections);
@@ -23,7 +23,7 @@ router.get('/:id/albums', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', authRequired, async (req, res, next) => {
     try {
         const collection = await getCollectionById(req.params.id);
         res.send(collection);
@@ -55,7 +55,7 @@ router.post('/', authRequired, async (req, res, next) => {
     }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', authRequired, async (req, res, next) => {
     try {
         const collection = await updateCollections(req.params.id, req.body);
         res.send(collection);
@@ -64,7 +64,7 @@ router.put('/:id', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authRequired, async (req, res, next) => {
     try {
         const collection = await deleteCollection(req.params.id);
         res.send(collection);
@@ -73,7 +73,7 @@ router.delete('/:id', async (req, res, next) => {
     }
 });
 
-router.delete('/:id/:album_id', async (req, res, next) => {
+router.delete('/:id/:album_id', authRequired, async (req, res, next) => {
     try {
         const collection = await deleteCollectionAlbum(req.params.id, req.params.album_id);
         res.send(collection);
