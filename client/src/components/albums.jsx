@@ -29,7 +29,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>; 
+    return <div>Error</div>; 
   }
   
   if (!data) {
