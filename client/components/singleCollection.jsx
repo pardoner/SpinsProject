@@ -5,6 +5,13 @@ import { useGetSingleCollectionQuery } from '../src/api/spinsapi';
 import { fetchCollectionAlbumsById, fetchCollectionById, fetchSpotifyAlbumArt, deleteCollectionAlbum, deleteCollectionById} from "../fetching";
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 
 export default function SingleCollection ({token, setToken, spotifyToken}) {
@@ -38,7 +45,6 @@ export default function SingleCollection ({token, setToken, spotifyToken}) {
 async function removeAlbum(album_id) {
    let removedAlbum = await deleteCollectionAlbum(album_id, token, id).then(res => setAlbums(res))
     console.log(removedAlbum)
-    // refetch();
   }
 
 async function deleteCollection() {

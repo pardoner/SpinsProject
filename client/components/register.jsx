@@ -32,7 +32,7 @@ export default function Register({ setToken }) {
                 <input required placeholder='lastname' value={last_name} onChange={(e) => setLastname(e.target.value)} />
                 <input required placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 <input required placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input required placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input required type="password" name="password"  placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
             </form>
         </>

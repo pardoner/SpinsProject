@@ -70,6 +70,8 @@ h1 {
   overflow-x: hidden;
   padding-top: 60px; 
   transition: 0.5s; 
+  padding-right: 5%;
+  padding-left: 2%;
 }
 
 #navbar a {
@@ -79,7 +81,6 @@ h1 {
   color: #818181;
   display: block;
   transition: 0.3s;
-  margin-right: 10%;
 }
 
 #navbar a:hover {
@@ -142,6 +143,8 @@ div {background-color: whitesmoke;}
   background-color: white;
   padding-top: 5vh;
   width: 80%;
+margin-left: 10%;
+padding-left: 3%;
 }
 
 .albumImg {
@@ -200,6 +203,7 @@ nav-bar:hover {
   flex-flow: row wrap;
   padding-top: 5vh;
   width: 80%;
+padding: 15%;
 }
 
 .collection:hover {

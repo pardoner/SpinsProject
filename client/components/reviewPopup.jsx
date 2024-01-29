@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import {useState} from 'react';
 import { makeReview, editReview } from '../fetching';
 import { Rating } from 'react-simple-star-rating';
-import { useGetReviewsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetReviewsQuery } from '../src/api/spinsapi'; 
 
 
 function ReviewPopup(props) {
@@ -37,8 +37,9 @@ console.log(props.review)
     async function createNewReview() {
         console.log(`trying to make new review with token: ${props.token}`)
         if (props.token) {
-            let newReview = await makeReview({albumId: album_id, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
+            let newReview = await makeReview({albumId: props.review.albumId, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
         }
+        console.log(albumId)
     }
 
     async function updateReview() {

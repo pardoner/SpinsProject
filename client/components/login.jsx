@@ -24,7 +24,7 @@ export default function Login({ setToken }) {
 
             <form onSubmit={handleSubmit}>
                 <input id="username" autoFocus required placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input id="password" required placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input id="password" required placeholder='password' type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
                 <p>Don't have an account? Register <a href="/register">here</a>.</p>
             </form>
