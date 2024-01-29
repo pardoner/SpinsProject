@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Navigations from './components/Navigations';
+import Navigations from '../src/components/Navigations';
 import { useNavigate } from 'react-router-dom';
 import { fetchAlbums, fetchSpotifyToken } from './fetching';
 import {
