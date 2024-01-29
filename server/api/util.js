@@ -31,7 +31,7 @@ const authRequired = (req, res, next) => {
 }
 
 function getUserFromRequest(req) {
-  if (req.get('Authorization') == null) returng
+  if (req.get('Authorization') == null) return
   const token = req.get('Authorization').split(' ')[1];
   console.log(token)
   decoded = jwt.verify(token, JWT_SECRET)
