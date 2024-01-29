@@ -1,4 +1,4 @@
-const BASE_URL = `http://localhost:8080/api`;
+const BASE_URL = `https://spins-project.onrender.com/api`;
 const SPOTIFY_URL = `https://api.spotify.com/v1`;
 const SPOTIFY_TOKEN_URL = `https://accounts.spotify.com/api`;
 
