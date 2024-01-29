@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetCollectionsQuery } from '../api/spinsapi'; // Import the generated hook from our RTK Query API slice
 
 export default function Collections ({token}) {
+  
   const { data, error, isLoading } = useGetCollectionsQuery(token);
   const nav = useNavigate();
 
@@ -13,6 +14,9 @@ export default function Collections ({token}) {
   }
 
   if (error) {
+    if(error.status == 401){
+       return <p>Log in or create an account to start collecting!</p>
+    }
     return <div>Error: {error.message}</div>; 
   }
 
@@ -26,7 +30,8 @@ export default function Collections ({token}) {
       <div>
       <h1>Collections</h1>
       {token ? <p>Go to the <a href="/albums">albums</a> page to add to a collection. Select a collection to see your records.</p> : <p>Log in or create an account to start collecting!</p>}
-      { token && {<div className="all-collections-container">
+      { token && 
+      <div className="all-collections-container">
         {
         data.map((collection) => {
           return (
@@ -38,7 +43,7 @@ export default function Collections ({token}) {
           )
         })}
       </div>
+      }
      </div> 
-    }}
     );
 }

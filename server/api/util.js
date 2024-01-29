@@ -12,7 +12,10 @@ const authRequired = (req, res, next) => {
     token = req.cookies.token
   }
   if (!token){
-    throw new Error('No Token Given')
+    res.status(401).send({
+      loggedIn: false,
+      message: 'Unauthorized',
+    })
   }
   
   try {
