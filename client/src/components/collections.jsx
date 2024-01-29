@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { useGetCollectionsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetCollectionsQuery } from '../api/spinsapi'; // Import the generated hook from our RTK Query API slice
 
 export default function Collections ({token}) {
   const { data, error, isLoading } = useGetCollectionsQuery(token);

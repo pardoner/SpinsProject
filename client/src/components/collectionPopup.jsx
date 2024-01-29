@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import {useState} from 'react';
 import { makeCollectionEntry, makeCollection } from '../fetching';
-import { useGetCollectionsQuery } from '../src/api/spinsapi'; 
+import { useGetCollectionsQuery } from '../api/spinsapi'; 
 
 
 function CollectionPopup(props) {

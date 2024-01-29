@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Navigations from '/components/Navigations'
+import Navigations from './navigations.jsx';
 import { fetchAlbums } from '../fetching'
 
 function App() {

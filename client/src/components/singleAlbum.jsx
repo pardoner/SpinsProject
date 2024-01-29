@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";4
-import { useGetSingleAlbumQuery } from '../src/api/spinsapi'; 
+import { useGetSingleAlbumQuery } from '../api/spinsapi'; 
 import { fetchAlbumById, fetchSpotifyAlbumArt} from "../fetching"
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";

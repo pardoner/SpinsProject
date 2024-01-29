@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchAlbumById, fetchReviews, fetchSpotifyAlbumArt, deleteReview, editReview } from "../fetching"
 import { Rating } from 'react-simple-star-rating';
 import ReviewPopup from './reviewPopup';
-import { useGetReviewsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetReviewsQuery } from '../api/spinsapi'; // Import the generated hook from our RTK Query API slice
 
 export default function Reviews({token, spotifyToken}) {
     const [reviews, setReviews] = useState(null)

@@ -17,11 +17,11 @@ rebuildDB()
       try {
           console.log('Dropping All Tables...');
           await client.query(`
-        DROP TABLE IF EXISTS collection_entries;
-        DROP TABLE IF EXISTS collections;
-        DROP TABLE IF EXISTS reviews;
-        DROP TABLE IF EXISTS users;
-        DROP TABLE IF EXISTS albums;
+        DROP TABLE IF EXISTS reviews CASCADE;
+        DROP TABLE IF EXISTS albums CASCADE;
+        DROP TABLE IF EXISTS collection_entries CASCADE;
+        DROP TABLE IF EXISTS collections CASCADE;
+        DROP TABLE IF EXISTS users CASCADE;
       `);
       } catch (error) {
           throw error;
