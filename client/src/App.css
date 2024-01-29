@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.loading {
+  height: 50%;
+  width: 50%;
+}

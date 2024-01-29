@@ -9,7 +9,7 @@ export default function Collections ({token}) {
   const nav = useNavigate();
 
   if (isLoading) {
-      return <div>Loading...</div>; // is styles.loading pre-programmed?
+      return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>
   }
 
   if (error) {
@@ -30,9 +30,9 @@ export default function Collections ({token}) {
         {
         data.map((collection) => {
           return (
-            <div className="column" key={collection.id} >
-            <Link to={`/collections/${collection.id}`}><h2 className="all-collections">{collection.name}</h2> </Link>  
-            <ul className="collection-card">
+            <div className="collection text-white bg-primary m-5 p-5" key={collection.id} >
+            <Link className="text-white"to={`/collections/${collection.id}`}><h2 className="all-collections">{collection.name}</h2> </Link>  
+            <ul className="col collection-card">
             </ul>
             </div>
           )

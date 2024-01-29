@@ -2,8 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";4
 import { useGetSingleCollectionQuery } from '../src/api/spinsapi'; 
-import { fetchCollectionAlbumsById, fetchCollectionById, fetchSpotifyAlbumArt, deleteCollectionAlbum, deleteCollectionById} from "../fetching"
-// import styles from "../index.css"; 
+import { fetchCollectionAlbumsById, fetchCollectionById, fetchSpotifyAlbumArt, deleteCollectionAlbum, deleteCollectionById} from "../fetching";
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -15,24 +14,6 @@ export default function SingleCollection ({token, setToken, spotifyToken}) {
   const [albums, setAlbums] = useState([])
   const [collection, setCollection] = useState({})
   const nav = useNavigate()
-  // const newCollectionPage = () => {
-  //   const { isLoading, data, isError, error, isFetching } = useGetSingleCollectionQuery(
-  //     'collections',
-  //     fetchCollectionAlbumsById,
-  //     {refetchOnMount: true,
-  //     }
-      
-  //   )
-  //   console.log({isLoading, isFetching})
-
-  //   if (isLoading) {
-  //     return <h1>Loading...</h1>
-  //   }
-  //   if (isError) {
-  //     return <h2>error.message</h2>
-  //   }
-  // }
-  // // const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
     async function fetchCollection() {
@@ -55,7 +36,7 @@ export default function SingleCollection ({token, setToken, spotifyToken}) {
   }, [])
 
 async function removeAlbum(album_id) {
-    let removedAlbum = await deleteCollectionAlbum(album_id, token, id)
+   let removedAlbum = await deleteCollectionAlbum(album_id, token, id).then(res => setAlbums(res))
     console.log(removedAlbum)
     // refetch();
   }
@@ -70,21 +51,21 @@ return (
   <>
   <div key={id} className="singleCollection column">
     <h1>{collection.name}</h1>
-    <div className="all-albums-container">
+    <div className="single-collection-container">
       {albums.map((album) => {
         console.log(album.imgUrl)
         return (
-        <ul key={album.id} className="album-card">
+        <ul key={album.id} className="single-collection-card m-3 p-3 border shadow">
           <Link to={`/albums/${album.id}`}><img src={album.imgUrl} alt={album.title} /></Link>
             <li>{album.title} </li> 
             <li>{album.artist}</li> 
-             <button onClick={() => removeAlbum(album.id)}>Remove</button>
+             <button className="btn btn-outline-secondary" onClick={() => removeAlbum(album.id)}>Remove</button>
         </ul>)
       })}
     </div>
   </div>
-        <button onClick={() => deleteCollection()}>Delete Collection</button>
-        <button onClick={() => backToCollections('/collections')}>Return To Collections</button>
+        <button className="btn btn-secondary" onClick={() => deleteCollection()}>Delete Collection</button>
+        <button className="btn btn-secondary" onClick={() => backToCollections('/collections')}>Return To Collections</button>
   </>
   );
   }

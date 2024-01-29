@@ -72,7 +72,6 @@ export const fetchCollections = async () => {
 
 export const makeCollection = async ({albumId, token, name}) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/collections`, {
             method: "POST",
             headers: {
@@ -94,7 +93,6 @@ export const makeCollection = async ({albumId, token, name}) => {
 
 export const makeCollectionEntry = async ({album_id, token, collection_id}) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/collections`, {
             method: "POST",
             headers: {
@@ -138,7 +136,6 @@ export const fetchCollectionById = async (collectionId) => {
 
 export const deleteCollectionAlbum = async (album_id, token, collection_id) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/collections/${collection_id}/${album_id}`, {
             method: "DELETE",
             headers: {
@@ -157,7 +154,6 @@ export const deleteCollectionAlbum = async (album_id, token, collection_id) => {
 
 export const deleteCollectionById = async (collectionId, token) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/collections/${collectionId}`, {
             method: "DELETE",
             headers: {
@@ -191,7 +187,6 @@ export const fetchReviews = async (token) => {
 
 export const makeReview = async (review, token) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/reviews`, {
             method: "POST",
             headers: {
@@ -216,7 +211,6 @@ export const makeReview = async (review, token) => {
 
 export const deleteReview = async (review_id, token) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/reviews/${review_id}`, {
             method: "DELETE",
             headers: {
@@ -234,7 +228,6 @@ export const deleteReview = async (review_id, token) => {
 
 export const editReview = async (review, token) => {
     try {
-        console.log(token, "hello this is the token")
         const response = await fetch(`${BASE_URL}/reviews/${review.id}`, {
             method: "PUT",
             headers: {
@@ -313,7 +306,7 @@ export const fetchSpotifyAlbumArt = async (title, artist, spotifyToken) => {
             'Authorization': `Bearer ${spotifyToken}`
             }
         },
-        ) // fetch("api.spotify.com/api/v1/search&q=artist:briteny%20spears,album:BLACKOUT&type=album")
+        ) 
         search_response = await response.json();
         if (search_response.error) {
             return search_response

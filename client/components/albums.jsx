@@ -25,7 +25,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
   }, [])
 
   if (isLoading) {
-      return <div>Loading...</div>;
+      return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>;
   }
 
   if (error) {
@@ -68,9 +68,8 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
       getDataWrapper();
     }, []);
 
-    if(state.isLoadingAlbum) { return <div>Data is loading from API...</div> }
     return (
-        <ul className="album-card" key={album.id}>
+        <ul className="album-card m-3 p-3 border shadow" key={album.id}>
             <Link to={`/albums/${album.id}`}><img className="albumImg" src={state.url} alt={album.title} /></Link>
             <li key="album">{album.title} </li> 
             <li key="artist">{album.artist}</li> 
@@ -109,6 +108,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
         <div className="all-albums-container">
           <BuildItems albums={currentItems} />
           </div>
+      <div className="pages">
         <ReactPaginate
           breakLabel="..."
           nextLabel="next >"
@@ -118,6 +118,7 @@ export default function Albums ({spotifyToken, setSpotifyToken}) {
           previousLabel="< previous"
           renderOnZeroPageCount={null}
         />
+        </div>
       </>
     );
   }

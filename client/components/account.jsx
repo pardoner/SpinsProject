@@ -7,7 +7,6 @@ import { ReactDOM } from "react";
 import { useNavigate } from 'react-router-dom';
 
 export default function Account ({token, setToken}) {
-  console.log(token)
   const nav = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -21,7 +20,7 @@ export default function Account ({token, setToken}) {
     }, []) 
 
   if (isLoading) {
-    return <div>Loading...</div>; 
+    return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>;
   }
 
   if (error) {

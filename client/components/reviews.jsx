@@ -71,7 +71,7 @@ function reviewDate(date) {
                     return (
                     <div key={review.id} className="column">
                         <h2>{review.album.title}</h2>    
-                        <ul key={review.album.id} className="collection-card">
+                        <ul key={review.album.id} className="collection-card m-3 p-3 border shadow">
                             <Link to={`/albums/${review.album.id}`}><img src={review.url} alt={review.album.title}/></Link>
                             <li>{review.album.artist}</li>
                             <Rating initialValue={review.rating} readonly={true}/>
@@ -79,9 +79,9 @@ function reviewDate(date) {
                             <li>{review.tags}</li>
                             <li>{review.body}</li>
                         </ul>
-                        <button onClick={()=> prepEditReview(review)}>Edit</button>
+                        <button className="btn btn-secondary" onClick={()=> prepEditReview(review)}>Edit</button>
                         
-                        <button onClick={() => removeReview(review.id)}>Delete</button>
+                        <button className="btn btn-secondary" onClick={() => removeReview(review.id)}>Delete</button>
                     </div>
                     )
                 })}

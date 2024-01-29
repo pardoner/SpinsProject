@@ -73,9 +73,9 @@ console.log(props.review)
                 </label>
                 <br></br>
                 <label> Thoughts: 
-                <textarea name="body" onChange={handleReviewChange} placeholder="Standout tracks? Recommended for fans of..."></textarea>
+                <textarea name="body" onChange={handleReviewChange} rows="3" placeholder="Standout tracks? Recommended for fans of..."></textarea>
                 </label>
-                <button className="closeButton" >Submit</button>
+                <button className="closeButton btn btn-secondary" >Submit</button>
                 {props.children}
             </form>    
         </div>

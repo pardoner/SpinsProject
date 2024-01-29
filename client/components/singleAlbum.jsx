@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";4
 import { useGetSingleAlbumQuery } from '../src/api/spinsapi'; 
 import { fetchAlbumById, fetchSpotifyAlbumArt} from "../fetching"
-// import styles from "../index.css"; 
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
 import CollectionPopup from './collectionPopup';
@@ -54,13 +53,14 @@ if (!album) {
         <h3>{album.artist}</h3> 
         <li className="label">{album.release_date}</li>
         <li>{album.description}</li>
-        <button onClick={()=> setCreateCollection(true)}>Add To Collection</button>
+        <button className="btn btn-primary" onClick={()=> setCreateCollection(true)}>Add To Collection</button>
           <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
           </CollectionPopup>
-        <button onClick={()=> setCreateReview(true)}>Write a Review</button>
+        <button className="btn btn-primary" onClick={()=> setCreateReview(true)}>Write a Review</button>
           <ReviewPopup trigger={createReview} setTrigger={setCreateReview} token={token}>
           </ReviewPopup>
-        <button onClick={() => backToAlbums('/albums')}>Return To Albums</button>
+          <br></br>
+        <button className="btn btn-primary" onClick={() => backToAlbums('/albums')}>Return To Albums</button>
     </div>
   );
   }

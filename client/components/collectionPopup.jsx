@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import {useState} from 'react';
 import { makeCollectionEntry, makeCollection } from '../fetching';
-import { useGetCollectionsQuery } from '../src/api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetCollectionsQuery } from '../src/api/spinsapi'; 
 
 
 function CollectionPopup(props) {
@@ -18,8 +18,6 @@ function CollectionPopup(props) {
   function handleSubmit(event) {
     event.preventDefault();
     console.log(newCollectionEntry)
-    // -1 means we are asking to create a new collection first
-    // then add album to new collection
     if (newCollectionEntry == -1) {
       const formData = Object.fromEntries(new FormData(event.target).entries())
       if (formData.newCollection == "") {
@@ -37,7 +35,7 @@ function CollectionPopup(props) {
   }
 
   if (isLoading) {
-      return <div>Loading...</div>; // is styles.loading pre-programmed?
+      return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>; 
   }
 
   if (error) {
@@ -85,7 +83,7 @@ function createNewCollection(name) {
             <br></br>
             {(newCollectionEntry == -1) && <textarea name="newCollection"></textarea>}
 
-            <button className="closeButton" >Submit</button>
+            <button className="closeButton btn btn-secondary" >Submit</button>
             {props.children}
         </form>    
         </div>

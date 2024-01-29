@@ -26,8 +26,8 @@
 
 .name {
   text-align: justify;
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
+  z-index: 1; 
+  top: 0; 
   left: 0;
   font-size: 3.2em;
 }
@@ -44,6 +44,7 @@ a:hover {
 body {
   margin: 0;
   padding-left: 5%;
+  width: 80%;
   place-items: center;
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -55,19 +56,20 @@ h1 {
   font-size: 2.2em;
   line-height: 1.1;
   text-align: center;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
 }
 
 #navbar {
-  height: 100%; /* 100% Full-height */
-  width: 25; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
+  height: 100%; 
+  width: 25; 
+  position: fixed; 
+  z-index: 1; 
+  top: 0; 
   right: 0;
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  background-color: #111; 
+  overflow-x: hidden;
+  padding-top: 60px; 
+  transition: 0.5s; 
 }
 
 #navbar a {
@@ -80,6 +82,10 @@ h1 {
   margin-right: 10%;
 }
 
+#navbar a:hover {
+  color: aqua;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -89,6 +95,7 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
+  margin: 1%;
   transition: border-color 0.25s;
 }
 button:hover {
@@ -164,4 +171,46 @@ p {
 
 .label {
   font-weight: bold;
+}
+
+.col {
+  width: 35vw;
+}
+
+
+.pages li {
+  display: inline-block;
+  justify-content: space-between;
+  padding: 2%;
+  align-items: center;
+}
+
+.pages {
+  padding-right: 20%;
+}
+
+
+nav-bar:hover {
+  color: yellow;
+}
+
+.single-collection-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  padding-top: 5vh;
+  width: 80%;
+}
+
+.collection:hover {
+  background-color: #535bf2;
+}
+
+.intro {
+  padding-top: 10%;
+}
+
+.intro img {
+  height: 30%;
+  width: 30%;
 }

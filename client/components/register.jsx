@@ -28,11 +28,11 @@ export default function Register({ setToken }) {
             <h1>Register</h1>
 
             <form onSubmit={handleSubmit}>
-                <input placeholder='firstname' value={first_name} onChange={(e) => setFirstname(e.target.value)} />
-                <input placeholder='lastname' value={last_name} onChange={(e) => setLastname(e.target.value)} />
-                <input placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input required placeholder='firstname' value={first_name} onChange={(e) => setFirstname(e.target.value)} />
+                <input required placeholder='lastname' value={last_name} onChange={(e) => setLastname(e.target.value)} />
+                <input required placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input required placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)} />
+                <input required placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
             </form>
         </>
