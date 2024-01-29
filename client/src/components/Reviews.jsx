@@ -21,6 +21,7 @@ function reviewDate(date) {
     useEffect(() => {
         async function fetchData() {
         let review_response =  await fetchReviews(token)
+
         async function combineReviews(revs) {
             let my_reviews = []
             await Promise.all(
@@ -34,16 +35,13 @@ function reviewDate(date) {
             }))
             setReviews(my_reviews)
         }
-        if (token) {
-            await combineReviews(review_response)
-        }
-    }
 
-    fetchData()
+        await combineReviews(review_response)
+        }
+        if (token) {
+            fetchData()
+        }
     }, [])
-    if (!reviews) {
-        return
-    }
 
     async function removeReview(review_id) {
          let removedReview =  await deleteReview(review_id, token)
