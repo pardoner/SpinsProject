@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useGetMeQuery } from '../src/api/spinsapi'; 
+import { useGetMeQuery } from '../api/spinsapi'; 
 import Userfront from "@userfront/core";
 import { ReactDOM } from "react";
 import { useNavigate } from 'react-router-dom';

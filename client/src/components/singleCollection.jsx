@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";4
-import { useGetSingleCollectionQuery } from '../src/api/spinsapi'; 
+import { useGetSingleCollectionQuery } from '../api/spinsapi'; 
 import { fetchCollectionAlbumsById, fetchCollectionById, fetchSpotifyAlbumArt, deleteCollectionAlbum, deleteCollectionById} from "../fetching";
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";

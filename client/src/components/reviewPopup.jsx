@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import {useState} from 'react';
 import { makeReview, editReview } from '../fetching';
 import { Rating } from 'react-simple-star-rating';
-import { useGetReviewsQuery } from '../src/api/spinsapi'; 
+import { useGetReviewsQuery } from '../api/spinsapi'; 
 
 
 function ReviewPopup(props) {
-    const { album_id } = useParams()
+    const { id } = useParams()
     const [newReview, setNewReview] = useState("Write a review")
     const [rating, setRating] = useState(0)
     const [body, setBody] = useState("")
@@ -37,9 +37,8 @@ console.log(props.review)
     async function createNewReview() {
         console.log(`trying to make new review with token: ${props.token}`)
         if (props.token) {
-            let newReview = await makeReview({albumId: props.review.albumId, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
+            let newReview = await makeReview({albumId: id, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
         }
-        console.log(albumId)
     }
 
     async function updateReview() {
