@@ -8,7 +8,7 @@ import ReviewPopup from './ReviewPopup';
 import { useGetReviewsQuery } from '../api/spinsapi'; // Import the generated hook from our RTK Query API slice
 
 export default function Reviews({token, spotifyToken}) {
-    const [reviews, setReviews] = useState(null)
+    const [reviews, setReviews] = useState([])
      const [editReview, setEditReview] = useState(false);
      const [reviewToEdit, setReviewToEdit] = useState();
     const nav = useNavigate();
