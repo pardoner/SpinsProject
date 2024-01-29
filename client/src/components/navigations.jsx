@@ -1,14 +1,14 @@
 /* TODO - add your code to create a functional React component that renders a navigation bar for the different views in your single page application. You may consider conditionally rendering some options - for example 'Login' should be available if someone has not logged in yet. */
 import { Routes, Route, Link } from "react-router-dom";
-import Albums from './albums';
-import Collections from "./collections";
+import Albums from './Albums';
+import Collections from "./Collections";
 import Register from './Register';
-import Reviews from './reviews';
-import Login from './login';
-import Account from './account';
-import SingleAlbum from './singleAlbum';
-import Home from './home';
-import SingleCollection from './singleCollection';
+import Reviews from './Reviews';
+import Login from './Login';
+import Account from './Account';
+import SingleAlbum from './SingleAlbum';
+import Home from './Home';
+import SingleCollection from './SingleCollection';
 
 // changed name
 
