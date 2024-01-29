@@ -10,6 +10,7 @@ import SingleAlbum from './singleAlbum';
 import Home from './home';
 import SingleCollection from './singleCollection';
 
+// changed name
 
 export default function Navigations({token, setToken, spotifyToken, setSpotifyToken}) {
 
