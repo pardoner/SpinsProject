@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";4
+import { Link } from "react-router-dom";
 import { useGetSingleAlbumQuery } from '../api/spinsapi'; 
 import { fetchAlbumById, fetchSpotifyAlbumArt} from "../fetching"
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
-import CollectionPopup from './collectionPopup';
-import ReviewPopup from './reviewPopup';
+import CollectionPopup from './CollectionPopup';
+import ReviewPopup from './ReviewPopup';
 import './createCollection.css';
 
 
