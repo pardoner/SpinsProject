@@ -4,7 +4,7 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 export const spinsapi = createApi({
     reducerPath: "spinsApi",
     baseQuery: fetchBaseQuery({
-      baseUrl: "http://localhost:8080/api"
+      baseUrl: "https://spins-project.onrender.com/api"
     }), 
     endpoints: (builder) => 
       ({
