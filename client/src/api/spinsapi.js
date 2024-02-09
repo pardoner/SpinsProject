@@ -1,10 +1,24 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
+import Cookies from 'js-cookie';
+
+const tryGetToken = (token) => {
+    if (token) {
+        return token
+    }
+
+    const cookie_token = Cookies.get("token")
+    if (cookie_token) {
+        return cookie_token
+    } else {
+        return null
+    }
+}
 
 export const spinsapi = createApi({
-    reducerPath: "spinsApi",
+    reducerPath: "spinsapi",
     baseQuery: fetchBaseQuery({
-      baseUrl: "https://spins-project.onrender.com/api"
+      baseUrl: "`https://spins-project.onrender.com/api"
     }), 
     endpoints: (builder) => 
       ({
@@ -24,7 +38,7 @@ export const spinsapi = createApi({
           getMe: builder.query({
             query: (token) => ({
               url: "/users/me",
-              headers: {Authorization: `Bearer ${token}`}
+              headers: {Authorization: `Bearer ${tryGetToken(token)}`}
             }), 
           }),
           addRegistration: builder.mutation({
@@ -37,32 +51,32 @@ export const spinsapi = createApi({
           getCollections: builder.query({
             query: (token) => ({
               url: "/collections",
-              headers: {Authorization: `Bearer ${token}`}
+              headers: {Authorization: `Bearer ${tryGetToken(token)}`}
             }),
           }),
           getSingleCollection: builder.query({
             query: (id) => ({
               url: `/collections/${id}`,
-              headers: {Authorization: `Bearer ${token}`}
+              headers: {Authorization: `Bearer ${tryGetToken(token)}`}
             }),
           }),
           deleteCollection: builder.mutation({
             query: ({id, token}) => ({
               url: `/collections/${id}`,
               method: "DELETE",
-              headers: {Authorization: `Bearer ${token}`},
+              headers: {Authorization: `Bearer ${tryGetToken(token)}`},
             })
           }),
           getJournals: builder.query({
             query: (token) => ({
               url: "/journals",
-              headers: {Authorization: `Bearer ${token}`}
+              headers: {Authorization: `Bearer ${tryGetToken(token)}`}
               })
             }),
           getReviews: builder.query({
               query: (token) => ({
                 url: "/reviews",
-                headers: {Authorization: `Bearer ${token}`}
+                headers: {Authorization: `Bearer ${tryGetToken(token)}`}
                 })
            }),
     })

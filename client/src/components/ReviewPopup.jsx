@@ -5,6 +5,7 @@ import {useState} from 'react';
 import { makeReview, editReview } from '../fetching';
 import { Rating } from 'react-simple-star-rating';
 import { useGetReviewsQuery } from '../api/spinsapi'; 
+import Cookies from 'js-cookie';
 
 
 function ReviewPopup(props) {
@@ -15,7 +16,7 @@ function ReviewPopup(props) {
     const [tags, setTags] = useState("")
     const [currentDate, setCurrentDate] = useState(new Date());
 
-console.log(props.review)
+
     function handleRating(rate) {
         setRating(rate)
     }
@@ -35,8 +36,7 @@ console.log(props.review)
     }
 
     async function createNewReview() {
-        console.log(`trying to make new review with token: ${props.token}`)
-        if (props.token) {
+        if (Cookies.get("token")) {
             let newReview = await makeReview({albumId: id, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
         }
     }

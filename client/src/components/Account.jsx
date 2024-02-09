@@ -5,6 +5,7 @@ import { useGetMeQuery } from '../api/spinsapi';
 import Userfront from "@userfront/core";
 import { ReactDOM } from "react";
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export default function Account ({token, setToken}) {
   const nav = useNavigate();
@@ -31,6 +32,7 @@ export default function Account ({token, setToken}) {
   const handleClick = () => {
     console.log("logging out")
     setToken(null)
+    Cookies.remove("token")
     nav("/")
   } 
 
@@ -45,7 +47,7 @@ export default function Account ({token, setToken}) {
         <p>{currentDate.toLocaleString()}</p>
         <>
             <p>Done for the day?</p>
-            { token ? (<button id="logout-button" onClick={handleClick}>
+            { Cookies.get("token") ? (<button id="logout-button" onClick={handleClick}>
               Log out
             </button>) : null }
         </>

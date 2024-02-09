@@ -1,9 +1,11 @@
-// just created to test run server -- ok to delete this file 
+
+
+//new way of trying to save user in cookies. should this be here?
+const token = 'YOUR_JWT_TOKEN';
 
 const express = require('express');
 const app = express();
 const PORT = 8080;
-
 const morgan = require('morgan');
 app.use(morgan('dev'));
 app.use(express.json()); 

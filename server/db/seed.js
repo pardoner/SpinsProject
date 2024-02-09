@@ -45,7 +45,7 @@ rebuildDB()
             first_name VARCHAR(200),
             last_name VARCHAR(200),
             email VARCHAR(200),
-            password VARCHAR(50),
+            password VARCHAR(200),
             username VARCHAR(30)
           );
           CREATE TABLE collections (

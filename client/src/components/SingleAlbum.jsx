@@ -8,6 +8,20 @@ import { useParams } from "react-router-dom";
 import CollectionPopup from './CollectionPopup';
 import ReviewPopup from './ReviewPopup';
 import './createCollection.css';
+import Cookies from 'js-cookie';
+
+const tryGetToken = (token) => {
+    if (token) {
+        return token
+    }
+
+    const cookie_token = Cookies.get("token")
+    if (cookie_token) {
+        return cookie_token
+    } else {
+        return null
+    }
+}
 
 
 export default function SingleAlbum ({token, setToken, spotifyToken}) {
@@ -53,11 +67,11 @@ if (!album) {
         <h3>{album.artist}</h3> 
         <li className="label">{album.release_date}</li>
         <li>{album.description}</li>
-        { token? <button className="btn btn-primary" onClick={()=> setCreateCollection(true)}>Add To Collection</button> : null }
-           { token ? <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
+        { Cookies.get("token") ? <button className="btn btn-primary" onClick={()=> setCreateCollection(true)}>Add To Collection</button> : null }
+           {Cookies.get("token") ? <CollectionPopup trigger={createCollection} setTrigger={setCreateCollection} token={token}>
           </CollectionPopup> : 
           <button className="btn btn-primary" onClick={()=> backToAlbums("/login")}>Login</button>}
-        { token ? <button className="btn btn-primary" onClick={()=> setCreateReview(true)}>Write a Review</button> : null }
+        { Cookies.get("token") ? <button className="btn btn-primary" onClick={()=> setCreateReview(true)}>Write a Review</button> : null }
           <ReviewPopup trigger={createReview} setTrigger={setCreateReview} token={token}>
           </ReviewPopup>
           <br></br>

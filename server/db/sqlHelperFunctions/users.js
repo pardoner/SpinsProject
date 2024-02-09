@@ -1,6 +1,7 @@
 
 const client = require('../client');
 const util = require('util');
+
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../../secrets')
 
@@ -28,7 +29,6 @@ async function getUserById(id) {
 }
 
 async function getUserByUsername(username) {
-    console.log(username)
     try {
         const { rows: [user] } = await client.query(`
         SELECT * FROM users
@@ -48,7 +48,7 @@ async function createUser(body) {
         RETURNING *;
         `, [body.first_name, body.last_name, body.email, body.username, body.password]);
         const token = jwt.sign({username: body.username}, JWT_SECRET);
-        return token; // return user?
+        return token; 
     } catch (error) {
         throw error;
     }

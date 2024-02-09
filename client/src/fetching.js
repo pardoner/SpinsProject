@@ -1,25 +1,39 @@
 const BASE_URL = `https://spins-project.onrender.com/api`;
 const SPOTIFY_URL = `https://api.spotify.com/v1`;
 const SPOTIFY_TOKEN_URL = `https://accounts.spotify.com/api`;
+import Cookies from 'js-cookie';
 
-export const registerUser = async (first_name, last_name, username, password) => {
+const tryGetToken = (token) => {
+    if (token) {
+        return token
+    }
+
+    const cookie_token = Cookies.get("token")
+    if (cookie_token) {
+        return cookie_token
+    } else {
+        return null
+    }
+}
+export const registerUser = async ({first_name, last_name, username, password, email}) => {
     try {
         const response = await fetch(
             `${BASE_URL}/users`, { 
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'pinkerton'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 first_name,
                 last_name,
                 username,
-                password
+                password,
+                email
             })
         });
         const result = await response.json();
         console.log(result)
+        Cookies.set("token", result.token)
         return result
     } catch (err) {
         console.error(err);
@@ -32,7 +46,7 @@ export const login = async (username, password) => {
         const response = await fetch(`${BASE_URL}/users/login`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 username,
@@ -40,6 +54,7 @@ export const login = async (username, password) => {
             })
         });
         const result = await response.json();
+        Cookies.set("token", result.token)
         console.log(result);
         return result
     } catch (err) {
@@ -76,7 +91,7 @@ export const makeCollection = async ({albumId, token, name}) => {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             },
             body: JSON.stringify({
                 name: name,
@@ -97,7 +112,7 @@ export const makeCollectionEntry = async ({album_id, token, collection_id}) => {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             },
             body: JSON.stringify({
                 collection_id: collection_id,
@@ -113,9 +128,15 @@ export const makeCollectionEntry = async ({album_id, token, collection_id}) => {
     }
 }
 
-export const fetchCollectionAlbumsById = async (collectionId) => {
+export const fetchCollectionAlbumsById = async (collectionId, token) => {
     try {
-        const response = await fetch(`${BASE_URL}/collections/${collectionId}/albums`)
+        const response = await fetch(`${BASE_URL}/collections/${collectionId}/albums`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${tryGetToken(token)}`
+            }
+        })
         const result = await response.json();
         console.log(result);
         return result
@@ -123,9 +144,14 @@ export const fetchCollectionAlbumsById = async (collectionId) => {
         console.error(err);
     }
 }
-export const fetchCollectionById = async (collectionId) => {
+export const fetchCollectionById = async (collectionId, token) => {
     try {
-        const response = await fetch(`${BASE_URL}/collections/${collectionId}`)
+        const response = await fetch(`${BASE_URL}/collections/${collectionId}`,
+        {        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tryGetToken(token)}`
+        }
+        })
         const result = await response.json();
         console.log(result);
         return result
@@ -140,7 +166,7 @@ export const deleteCollectionAlbum = async (album_id, token, collection_id) => {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             }
         });
         console.log(response)
@@ -158,7 +184,7 @@ export const deleteCollectionById = async (collectionId, token) => {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             }
         });
         console.log(response)
@@ -175,7 +201,7 @@ export const fetchReviews = async (token) => {
         const response = await fetch(`${BASE_URL}/reviews`,
         { headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${tryGetToken(token)}`
         }})
         const result = await response.json();
         console.log(result);
@@ -191,7 +217,7 @@ export const makeReview = async (review, token) => {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             },
             body: JSON.stringify({
                 body: review.body,
@@ -215,7 +241,7 @@ export const deleteReview = async (review_id, token) => {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             }
         });
         const result = await response.json();
@@ -232,7 +258,7 @@ export const editReview = async (review, token) => {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tryGetToken(token)}`
             },
             body: JSON.stringify({
                 albumId: review.albumId,

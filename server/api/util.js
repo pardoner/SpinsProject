@@ -16,11 +16,21 @@ const authRequired = (req, res, next) => {
       loggedIn: false,
       message: 'Unauthorized',
     })
+    next()
   }
   
   try {
-   jwt.verify(token, JWT_SECRET);
+    console.log(`token: ${token}`)
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = {
+            id: decoded.id,
+            firstname: decoded.firstname,
+            lastname: decoded.lastname,
+            email: decoded.email
+          }
   } catch (error) {
+    console.log("this error")
+    console.log(error)
     res.status(401).send({
       loggedIn: false,
       message: 'Unauthorized',

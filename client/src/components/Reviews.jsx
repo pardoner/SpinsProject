@@ -5,7 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import { fetchAlbumById, fetchReviews, fetchSpotifyAlbumArt, deleteReview, editReview } from "../fetching"
 import { Rating } from 'react-simple-star-rating';
 import ReviewPopup from './ReviewPopup';
-import { useGetReviewsQuery } from '../api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetReviewsQuery } from '../api/spinsapi'; 
+import Cookies from 'js-cookie';
+
+const tryGetToken = (token) => {
+    if (token) {
+        return token
+    }
+
+    const cookie_token = Cookies.get("token")
+    if (cookie_token) {
+        return cookie_token
+    } else {
+        return null
+    }
+}
 
 export default function Reviews({token, spotifyToken}) {
     const [reviews, setReviews] = useState([])
@@ -38,7 +52,7 @@ function reviewDate(date) {
 
         await combineReviews(review_response)
         }
-        if (token) {
+        if (Cookies.get("token")) {
             fetchData()
         }
     }, [])
@@ -61,7 +75,7 @@ function reviewDate(date) {
             <h1>Reviews</h1>
             <br></br>
             <div className="all-reviews">
-                {token ? <p>Go to the <a href="/albums">albums</a> page to write a review.</p> : <p>log in or create an account to start reviewing!</p>}
+                {Cookies.get("token") ? <p>Go to the <a href="/albums">albums</a> page to write a review.</p> : <p>Log in or create an account to start reviewing!</p>}
                 {reviews.map((review) => {
                     return (
                     <div key={review.id} className="column">

@@ -12,7 +12,7 @@ export default function Register({ setToken }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const register = await registerUser(first_name, last_name, email, username, password);
+        const register = await registerUser({first_name, last_name, email, username, password});
         setToken(register.token);
         console.log(register);
         setFirstname('');

@@ -9,7 +9,20 @@ import Account from './Account';
 import SingleAlbum from './SingleAlbum';
 import Home from './Home';
 import SingleCollection from './SingleCollection';
+import Cookies from 'js-cookie';
 
+const tryGetToken = (token) => {
+    if (token) {
+        return token
+    }
+
+    const cookie_token = Cookies.get("token")
+    if (cookie_token) {
+        return cookie_token
+    } else {
+        return null
+    }
+}
 // changed name
 
 export default function Navigations({token, setToken, spotifyToken, setSpotifyToken}) {
@@ -20,7 +33,7 @@ export default function Navigations({token, setToken, spotifyToken, setSpotifyTo
       <Link to="/albums"> Albums</Link>
       <Link to="/collections"> Collections</Link>
       <Link to="/reviews"> Reviews</Link>
-      {token ? (<Link to="/account"> Account</Link>) : (<Link to="/login"> Login</Link>) }
+      {tryGetToken(token) ? (<Link to="/account"> Account</Link>) : (<Link to="/login"> Login</Link>) }
     </div>
     <div id="main-section">
     <Routes>

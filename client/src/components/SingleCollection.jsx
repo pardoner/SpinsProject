@@ -24,8 +24,8 @@ export default function SingleCollection ({token, setToken, spotifyToken}) {
 
   useEffect(() => {
     async function fetchCollection() {
-      let res = await fetchCollectionAlbumsById(id)
-      const coll_res = await fetchCollectionById(id)
+      let res = await fetchCollectionAlbumsById(id, token)
+      const coll_res = await fetchCollectionById(id, token)
       setCollection(coll_res)
       console.log(coll_res)
       async function fetchArt(albs) {

@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import {useState} from 'react';
 import { makeCollectionEntry, makeCollection } from '../fetching';
 import { useGetCollectionsQuery } from '../api/spinsapi'; 
+import Cookies from 'js-cookie';
 
 
 function CollectionPopup(props) {
   const { id } = useParams()
   const { data, error, isLoading } = useGetCollectionsQuery(props.token);
   const [newCollectionEntry, setNewCollectionEntry] = useState(-1)
+
   
 
   function handleChange(event) {
@@ -43,8 +45,7 @@ function CollectionPopup(props) {
   }
 
 function createNewCollection(name) {
-   console.log(`trying to make new collection with token: ${props.token}`)
-    if (props.token) {
+    if (Cookies.get("token")) {
     makeCollection({albumId: id, token: props.token, name: name})
       .catch(rejected => {
         setError(rejected)
@@ -81,7 +82,7 @@ function createNewCollection(name) {
                 </select>            
             </label>
             <br></br>
-            {(newCollectionEntry == -1) && <textarea name="newCollection"></textarea>}
+            {(newCollectionEntry == -1) && <textarea rows="1" placeholder ="New Collection Name" name="newCollection"></textarea>}
 
             <button className="closeButton btn btn-secondary" >Submit</button>
             {props.children}
