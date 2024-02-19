@@ -1,8 +1,7 @@
 import React from 'react';
 import { useParams } from "react-router-dom";
 import {useState} from 'react';
-import { makeCollectionEntry, makeCollection } from '../fetching';
-import { useGetCollectionsQuery } from '../api/spinsapi'; 
+import { useGetCollectionsQuery, useAddCollectionEntryMutation, useAddCollectionMutation } from '../api/spinsapi'; // switch to these 
 import Cookies from 'js-cookie';
 
 
@@ -10,8 +9,9 @@ function CollectionPopup(props) {
   const { id } = useParams()
   const { data, error, isLoading } = useGetCollectionsQuery(props.token);
   const [newCollectionEntry, setNewCollectionEntry] = useState(-1)
+  const [addCollectionEntry, {error: entryError, isLoading: entryIsLoading }] = useAddCollectionEntryMutation();
+  const [addCollection, {error: collectionError, isLoading: collectionIsLoading}] = useAddCollectionMutation();
 
-  
 
   function handleChange(event) {
     setNewCollectionEntry({value: event.target.value});
@@ -19,13 +19,11 @@ function CollectionPopup(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(newCollectionEntry)
     if (newCollectionEntry == -1) {
       const formData = Object.fromEntries(new FormData(event.target).entries())
       if (formData.newCollection == "") {
         return
       }
-      console.log(formData)
       createNewCollection(formData.newCollection)
       props.setTrigger(false)
       alert('Added to collection: ' + formData.newCollection)
@@ -46,16 +44,15 @@ function CollectionPopup(props) {
 
 function createNewCollection(name) {
     if (Cookies.get("token")) {
-    makeCollection({albumId: id, token: props.token, name: name})
+      addCollection({token: Cookies.get("token"), albumId: id, name: name})
       .catch(rejected => {
         setError(rejected)
       })
     }
 }
  function addToCollection(collection_id) {
-    console.log(`trying to add to collection with token: ${props.token}`)
-    if (props.token) {
-    makeCollectionEntry({album_id: id, token: props.token, collection_id: collection_id})
+    if (Cookies.get('token')) {
+      addCollectionEntry({albumId: id, token: Cookies.get("token"), collection_id: collection_id})
       .catch(rejected => {
         setError(rejected)
       })
@@ -64,7 +61,6 @@ function createNewCollection(name) {
 
     let handleCollectionChange = (e) => {
      setNewCollectionEntry(e.target.value)
-     console.log(e.target.value)
     }
     return (props.trigger) ? (
     <div className = "popUp">
@@ -95,4 +91,3 @@ function createNewCollection(name) {
 export default CollectionPopup;
 
 
-// if new collection selected, a second option opens for collection name 

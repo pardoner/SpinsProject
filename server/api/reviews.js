@@ -39,6 +39,7 @@ router.post('/', authRequired, async (req, res, next) => {
 router.put('/:id', authRequired, async (req, res, next) => {
     try {
         const review = await updateReview(req.params.id, req.body);
+        console.log(req.body)
         res.send(review);
     } catch (err) {
         next(err);

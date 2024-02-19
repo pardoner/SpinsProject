@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { registerUser } from '../fetching';
 import { useNavigate } from 'react-router-dom';
+import {useAddRegistrationMutation}  from '../api/spinsapi';
 
 export default function Register({ setToken }) {
     const [first_name, setFirstname] = useState('');
@@ -9,10 +9,12 @@ export default function Register({ setToken }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const nav = useNavigate();
+    const [addRegistration, {error: registerError, isLoading: registrationLoading}] = useAddRegistrationMutation();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const register = await registerUser({first_name, last_name, email, username, password});
+        const register = await addRegistration({first_name, last_name, email, username, password});
         setToken(register.token);
         console.log(register);
         setFirstname('');
@@ -24,7 +26,7 @@ export default function Register({ setToken }) {
     }
 
     return(
-        <>
+        <div className="register-page">
             <h1>Register</h1>
 
             <form onSubmit={handleSubmit}>
@@ -33,8 +35,8 @@ export default function Register({ setToken }) {
                 <input required placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 <input required placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)} />
                 <input required type="password" name="password"  placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button type="submit">Submit</button>
+                <button className="btn btn-secondary" type="submit">Submit</button>
             </form>
-        </>
+        </div>
     );
 }

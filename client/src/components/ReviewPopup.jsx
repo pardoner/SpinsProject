@@ -2,9 +2,8 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import {useState} from 'react';
-import { makeReview, editReview } from '../fetching';
 import { Rating } from 'react-simple-star-rating';
-import { useGetReviewsQuery } from '../api/spinsapi'; 
+import { useGetReviewsQuery, useEditReviewMutation, useAddReviewMutation } from '../api/spinsapi'; 
 import Cookies from 'js-cookie';
 
 
@@ -16,8 +15,12 @@ function ReviewPopup(props) {
     const [tags, setTags] = useState("")
     const [currentDate, setCurrentDate] = useState(new Date());
 
+    const [updateReview, {error: reviewsEditError, isLoading: editLoading}] = useEditReviewMutation();
+    const [addReview, {error: reviewAddError, isLoading: reviewingAddLoading}] = useAddReviewMutation();
+
 
     function handleRating(rate) {
+        console.log(rate)
         setRating(rate)
     }
 
@@ -25,7 +28,7 @@ function ReviewPopup(props) {
         event.preventDefault();
 
         if (props.review) {
-            updateReview()
+            sendUpdateReview()
             props.setTrigger(false)
         } else {
             createNewReview()
@@ -35,18 +38,18 @@ function ReviewPopup(props) {
         alert('Added new review');
     }
 
+
     async function createNewReview() {
         if (Cookies.get("token")) {
-            let newReview = await makeReview({albumId: id, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
+            let newReview = await addReview({albumId: id, tags: tags, body: body, rating: rating, date: currentDate}, props.token)
         }
     }
 
-    async function updateReview() {
-         let editedReview =  await editReview({id: props.review.id, tags: tags, body: body, rating: rating, date: currentDate, albumId: props.review.albumId}, props.token)
+    async function sendUpdateReview() {
+         let editedReview =  await updateReview({id: props.review.id, tags: tags, body: body, rating: rating, date: currentDate, albumId: props.review.albumId}, props.token)
         console.log(editedReview)
         console.log("from")
         console.log(props.review)
-        // refresh page once if goes through 
      }
 
     let handleReviewChange = (e) => {

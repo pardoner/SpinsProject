@@ -4,10 +4,11 @@ const { getUserByUsername } = require('../db/sqlHelperFunctions/users')
 
 const authRequired = (req, res, next) => {
   let token = null
+  console.log(`req: ${req.body}`)
   if (req.get('Authorization')) {
     console.log(`${JSON.stringify(req.cookies)} cookie token`)
     token = req.get('Authorization').split(' ')[1];
-    console.log(token);
+    console.log(`Token in util: ${token}`);
   } else {
     token = req.cookies.token
   }

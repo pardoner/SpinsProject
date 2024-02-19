@@ -2,10 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { fetchAlbumById, fetchReviews, fetchSpotifyAlbumArt, deleteReview, editReview } from "../fetching"
+import { fetchSpotifyAlbumArt } from "../fetching"
 import { Rating } from 'react-simple-star-rating';
 import ReviewPopup from './ReviewPopup';
-import { useGetReviewsQuery } from '../api/spinsapi'; 
+import { useGetReviewsQuery, useGetSingleAlbumQuery, useDeleteReviewMutation, useEditReviewMutation, useLazyGetSingleAlbumQuery } from '../api/spinsapi'; 
 import Cookies from 'js-cookie';
 
 const tryGetToken = (token) => {
@@ -22,45 +22,57 @@ const tryGetToken = (token) => {
 }
 
 export default function Reviews({token, spotifyToken}) {
-    const [reviews, setReviews] = useState([])
      const [editReview, setEditReview] = useState(false);
+     const [reviews, setReviews] = useState([])
      const [reviewToEdit, setReviewToEdit] = useState();
-    const nav = useNavigate();
-
-function reviewDate(date) {
-    let newDate = date.slice(0, 10);
-    return newDate;
-}
+     const nav = useNavigate();
+     const [albumId, setAlbumId] = useState(1)
+     const {data: review_data = [], error: reviewsError, isLoading: reviewsLoading} = useGetReviewsQuery(token);
+     const [deleteReview, {error: deleteReviewError, isLoading: reviewDeletionLoading}] = useDeleteReviewMutation();
+     const [updateReview, {error: editReviewError, isLoading: reviewEditLoading}] = useEditReviewMutation();
+     const [useGetAlbum, data, lastPromise] = useLazyGetSingleAlbumQuery();
 
     useEffect(() => {
         async function fetchData() {
-        let review_response =  await fetchReviews(token)
+            console.log(review_data)
 
-        async function combineReviews(revs) {
-            let my_reviews = []
-            await Promise.all(
-                revs.map(async (review) => {
-                    let album = await fetchAlbumById(review.albumId)
+            async function combineReviews(revs) {
+                let my_reviews = []
+                for (const review of revs) {
+                    console.log(review)
+                    setAlbumId(review.albumId)
+                    const {data: album} = await useGetAlbum(review.albumId)
+                    console.log(album)
                     let url = await fetchSpotifyAlbumArt(album.title, album.artist, spotifyToken)
                     let new_review = { ...review }
                     new_review.album = album;
                     new_review.url = url;
                     my_reviews.push(new_review);
-            }))
-            setReviews(my_reviews)
+                }
+                if (!(reviews.length == 0 && my_reviews.length == 0)){
+                    setReviews(my_reviews)
+                }
+
+            }
+            await combineReviews(review_data)
+
         }
 
-        await combineReviews(review_response)
-        }
         if (Cookies.get("token")) {
             fetchData()
         }
-    }, [])
-
+        console.log(reviews)
+    }, [review_data])
+    
+    
+    function reviewDate(date) {
+        let newDate = date.slice(0, 10);
+        return newDate;
+    }
     async function removeReview(review_id) {
-         let removedReview =  await deleteReview(review_id, token)
+            let removedReview =  await deleteReview(review_id, token)
         console.log(removedReview)
-     }
+        }
 
 
     function prepEditReview(review) {
@@ -69,18 +81,22 @@ function reviewDate(date) {
         console.log(review)
     }
 
-    console.log(reviews)
+    if (reviewsLoading) {
+            return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>;
+    }
+
     return (
-        <div>
+        <div className="review-page">
             <h1>Reviews</h1>
             <br></br>
             <div className="all-reviews">
                 {Cookies.get("token") ? <p>Go to the <a href="/albums">albums</a> page to write a review.</p> : <p>Log in or create an account to start reviewing!</p>}
                 {reviews.map((review) => {
+                    console.log(review.id)
                     return (
-                    <div key={review.id} className="column">
+                    <div key={review.id} className="collection-card m-3 p-3 border shadow">
                         <h2>{review.album.title}</h2>    
-                        <ul key={review.album.id} className="collection-card m-3 p-3 border shadow">
+                        <ul key={review.album.id}>
                             <Link to={`/albums/${review.album.id}`}><img src={review.url} alt={review.album.title}/></Link>
                             <li>{review.album.artist}</li>
                             <Rating initialValue={review.rating} readonly={true}/>

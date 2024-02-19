@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGetAlbumsQuery } from '../api/spinsapi';
 import ReactPaginate from 'react-paginate';
-import { fetchSpotifyAlbumArt, fetchSpotifyToken } from '../fetching'
+import { fetchSpotifyAlbumArt, fetchSpotifyToken } from '../fetching' // change with redux 
 
 export default function Albums ({spotifyToken, setSpotifyToken}) {
   const { data, error, isLoading } = useGetAlbumsQuery();

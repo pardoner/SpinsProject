@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { useGetCollectionsQuery } from '../api/spinsapi'; // Import the generated hook from our RTK Query API slice
+import { useGetCollectionsQuery } from '../api/spinsapi'; 
 import Cookies from 'js-cookie';
 
 const tryGetToken = (token) => {
@@ -28,7 +28,14 @@ export default function Collections ({token}) {
   }
 
   if (error && error.status == 401) {
-    return <p>Log in or create an account to start collecting!</p>
+    return (
+      <div className="collections-page">
+         <h1>Collections</h1>
+          <br></br>
+          <p>Log in or create an account to start collecting!</p>
+      </div>
+      )
+
   }
 
   console.log(data)
@@ -38,24 +45,24 @@ export default function Collections ({token}) {
   }
 
   return (
-      <div>
-      <h1>Collections</h1>
-      <br></br>
-      { Cookies.get("token") ? <p>Go to the <a href="/albums">albums</a> page to add to a collection. Select a collection to see your records.</p> : <p>Log in or create an account to start collecting!</p>}
-      { Cookies.get("token") && 
-      <div className="all-collections-container">
-        {
-        data.map((collection) => {
-          return (
-            <div className="collection text-white bg-primary m-5 p-5" key={collection.id} >
-            <Link className="text-white"to={`/collections/${collection.id}`}><h2 className="all-collections">{collection.name}</h2> </Link>  
-            <ul className="col collection-card">
-            </ul>
-            </div>
-          )
-        })}
-      </div>
+        <div className="collections-page">
+          <h1>Collections</h1>
+            <br></br>
+              { Cookies.get("token") ? <p>Go to the <a href="/albums">albums</a> page to add to a collection. Select a collection to see your records.</p> : <p>Log in or create an account to start collecting!</p>}
+              { Cookies.get("token") && 
+              <div className="all-collections-container">
+                {
+                data.map((collection) => {
+                  return (
+                    <div className="collection text-white bg-primary m-4 p-4" key={collection.id} >
+                    <Link className="text-white"to={`/collections/${collection.id}`}><h2 className="all-collections">{collection.name}</h2> </Link>  
+                    <ul className="col collection-card">
+                    </ul>
+                    </div>
+                  )
+              })}
+              </div>
+              }
+          </div> 
+          );
       }
-     </div> 
-    );
-}

@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGetSingleAlbumQuery } from '../api/spinsapi'; 
-import { fetchAlbumById, fetchSpotifyAlbumArt} from "../fetching"
+import { fetchSpotifyAlbumArt} from "../fetching"
 import { useNavigate} from "react-router-dom";
 import { useParams } from "react-router-dom";
 import CollectionPopup from './CollectionPopup';
@@ -30,36 +30,40 @@ export default function SingleAlbum ({token, setToken, spotifyToken}) {
   const backToAlbums = useNavigate()
   const addToCollections = useNavigate()
   const addToReviews = useNavigate()
-  const [album, setAlbum] = useState(null)
   const [url, setUrl] = useState(null)
   const [createCollection, setCreateCollection] = useState(false);
   const [createReview, setCreateReview] = useState(false);
+  const {data: album, error: albumsError, isLoading: albumLoading} = useGetSingleAlbumQuery(id);
 
   useEffect(() => {
-    async function fetchAlbum() {
-      const res = await fetchAlbumById(id).then( (res) => {
-        setUrl(res.imgUrl)
-        console.log(res)
-        async function fetchArt() {
-          fetchSpotifyAlbumArt(res.title, res.artist, spotifyToken).then((response) => {
-            if (response) {
-              console.log(response)
-              setUrl(response)
-            }
-
-          })
-        }
-        fetchArt()
-        setAlbum(res)
-      })
+    if(albumLoading){
+        return
     }
 
-    fetchAlbum()
-
+    fetchSpotifyAlbumArt(album.title, album.artist, spotifyToken).then((response) => {
+      if (response) {
+        console.log(response)
+        setUrl(response)
+      }
+    })
   }, [])
-if (!album) {
-  return
-}
+    
+  if (albumLoading) {
+            return <div><img className="loading" src="https://www.jimphicdesigns.com/downloads/imgs-mockup/pixelated-hourglass-loading.gif"/></div>;
+  }
+
+ if(albumLoading){
+        return
+    }
+
+    fetchSpotifyAlbumArt(album.title, album.artist, spotifyToken).then((response) => {
+      if (response) {
+        console.log(response)
+        if (!url) {
+        setUrl(response)
+        }
+      }
+    })
   return (
     <div key={album.id} className="singleAlbum column">
       <h1>{album.title}</h1>

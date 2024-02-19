@@ -17,6 +17,7 @@ router.get('/', authRequired, async (req, res, next) => {
 router.get('/:id/albums', authRequired, async (req, res, next) => {
     try {
         const collections = await getCollectionAlbums(req.params.id);
+        console.log(collections)
         res.send(collections);
     } catch (error) {
         next(error);
@@ -35,6 +36,8 @@ router.get('/:id', authRequired, async (req, res, next) => {
 router.post('/', authRequired, async (req, res, next) => {
     try {
         const user = await getUserFromRequest(req)
+        console.log(req.body)
+        console.log(`auth: ${req.get("Authorization")}`)
         let coll_id = req.body.collection_id
         let collection = null
         console.log(req.body)
