@@ -41,7 +41,7 @@ const authRequired = (req, res, next) => {
   next()
 }
 
-function getUserFromRequest(req) {
+async function getUserFromRequest(req) {
   if (req.get('Authorization') == null) return
   const token = req.get('Authorization').split(' ')[1];
   if (token == null) return
@@ -49,7 +49,7 @@ function getUserFromRequest(req) {
   decoded = jwt.verify(token, JWT_SECRET)
   console.log("decoded")
   console.log(decoded)
-  const user = getUserByUsername(decoded.username);
+  const user = await getUserByUsername(decoded.username);
   return user;
 }
 

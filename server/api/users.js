@@ -48,7 +48,7 @@ router.get('/me',authRequired, async (req, res, next) => {
     try {
         const user = await getUserFromRequest(req)
         console.log(`user from get me: ${user}`)
-        console.log(`username from getme: $requ.`)
+        console.log(`username from getme: ${req}.`)
         res.send(user);
     } catch (error) {
         next(error);
