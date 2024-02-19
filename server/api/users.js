@@ -46,7 +46,9 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/me',authRequired, async (req, res, next) => {
     try {
-        const user = await getUserByUsername(req.body.username);
+        const user = await getUserFromRequest(req)
+        console.log(`user from get me: ${user}`)
+        console.log(`username from getme: $requ.`)
         res.send(user);
     } catch (error) {
         next(error);
