@@ -46,10 +46,7 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/me',authRequired, async (req, res, next) => {
     try {
-        const token = req.get('Authorization').split(' ')[1];
-        decoded = jwt.verify(token, JWT_SECRET)
-        console.log(decoded)
-        const user = await getUserByUsername(decoded.username);
+        const user = await getUserByUsername(req.body.username);
         res.send(user);
     } catch (error) {
         next(error);

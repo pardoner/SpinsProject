@@ -4,12 +4,14 @@ import Cookies from 'js-cookie';
 const BASE_URL = `https://spins-project.onrender.com/api`;
 
 const tryGetToken = (token) => {
+
     if (token) {
         return token
     }
-
     const cookie_token = Cookies.get("token")
+    console.log(cookie_token)
     if (cookie_token) {
+      console.log(cookie_token)
         return cookie_token
     } else {
         return null
@@ -34,7 +36,7 @@ export const spinsapi = createApi({
             query: (body) => ({
               url: "/users/login",
               method: "POST",
-              body,
+              body: body,
             }),
           }),
           getMe: builder.query({
@@ -45,13 +47,13 @@ export const spinsapi = createApi({
           }),
           addRegistration: builder.mutation({
             query: (body) => ({
-              url: "/users/register",
+              url: "/users/",
               method: "POST",
               body: body,
               headers: {
                 'Content-Type': 'application/json'
               }
-            })
+            }),
           }),
           getCollections: builder.query({
             query: (token) => ({

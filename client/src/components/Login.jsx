@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {useAddLoginMutation} from "../api/spinsapi"
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export default function Login({ setToken }) {
     const [username, setUsername] = useState('');
@@ -12,7 +13,9 @@ export default function Login({ setToken }) {
         e.preventDefault();
         console.log(username, password);
         const logIn = await addLogin({username, password});
-        setToken(logIn.token);
+        console.log(logIn.data.token)
+        setToken(logIn.data.token);
+        Cookies.set("token", logIn.token)
         console.log(logIn);
         setUsername('');
         setPassword('');

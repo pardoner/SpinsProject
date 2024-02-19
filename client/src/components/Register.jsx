@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useAddRegistrationMutation}  from '../api/spinsapi';
+import Cookies from 'js-cookie';
 
 export default function Register({ setToken }) {
     const [first_name, setFirstname] = useState('');
@@ -15,7 +16,8 @@ export default function Register({ setToken }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const register = await addRegistration({first_name, last_name, email, username, password});
-        setToken(register.token);
+        setToken(register.data.token);
+        Cookies.set("token", register.data.token)
         console.log(register);
         setFirstname('');
         setLastname('');
