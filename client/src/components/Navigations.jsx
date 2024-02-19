@@ -23,7 +23,6 @@ const tryGetToken = (token) => {
         return null
     }
 }
-// changed name
 
 export default function Navigations({token, setToken, spotifyToken, setSpotifyToken}) {
 

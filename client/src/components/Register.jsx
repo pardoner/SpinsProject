@@ -15,6 +15,7 @@ export default function Register({ setToken }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(`registering user ${first_name} ${last_name}`)
         const register = await addRegistration({first_name, last_name, email, username, password});
         setToken(register.data.token);
         Cookies.set("token", register.data.token)

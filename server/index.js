@@ -1,6 +1,4 @@
 
-
-//new way of trying to save user in cookies. should this be here?
 const token = 'YOUR_JWT_TOKEN';
 
 const express = require('express');
