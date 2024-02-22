@@ -4,7 +4,7 @@ Deployed site: https://spins.onrender.com
 
 Hello!
 
-Spins is an application designed to allow users to log and organize their record collections digitally, and to write reviews of albums they listen to. Visit the deployed link above to start logging the records you've been spinning.
+Spins is a website designed to allow users to log and organize their record collections digitally, and to write reviews of albums they listen to. Visit the deployed link above to start logging the records you've been spinning. Best suited for desktop browser.
 
 On the albums page, a user can choose from 500 albums that were imported via a csv file containing the Rolling Stone's Top 500 Albums of All Time list. Album art is fetched from the Spotify API. The fetch only lasts for an hour before needing to request a new token, so the album page may have to be refreshed after 60 minutes if the user has been inactive. 
 
