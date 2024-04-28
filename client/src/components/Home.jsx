@@ -6,10 +6,12 @@ function App() {
 
   return (
       <div className = "intro">
-        <p>Welcome to Spins!</p>
-        <p>Spins is an album logging website. Create an account or login to review and collect the records you've been spinning!</p>
-        <p>On the albums page, you'll be able to search through the Rolling Stone's Top 500 Album selections. Press an album for more information. Log and organize a record collection virtually, or make a wishlist!</p>
-        <img src="https://media1.giphy.com/media/LNOZoHMI16ydtQ8bGG/giphy.gif?cid=6c09b952z2kazvpuobgl9thdie60vxb4qb4g4ddy32abqzec&ep=v1_stickers_related&rid=giphy.gif&ct=s" alt="vinyl" />
+        <p>Spins is an album logging website. Create an account or login to review and collect the records you've been spinning. On the albums page, you'll be able to search through the Rolling Stone's Top 500 Album selections. Press an album for more information. Log and organize a record collection virtually, or make a wishlist!</p>
+        <br></br>
+        <br></br>
+        <img src = "https://d39l2hkdp2esp1.cloudfront.net/img/photo/212573/212573_00_2x.jpg?20200706140730"></img>
+        <br></br>
+        <br></br>
       </div>
     )
   }
